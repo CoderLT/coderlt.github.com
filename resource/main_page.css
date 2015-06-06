@@ -1,0 +1,532 @@
+/* Framework */html {
+	}
+
+body {
+		margin: 0;
+		padding: 0;
+		line-height: 0;
+		font-size: 10pt;
+	    font-family: "Lucida Grande", "Lucida Sans Unicode", "Helvetica", "Arial", "Verdana", "sans-serif";
+		font-size: 10pt;
+	    font-weight: normal;
+		line-height: 1.8;
+	    -webkit-font-smoothing: antialiased;
+		color: #1A1A1A;
+		-webkit-user-select: none;
+	 /* disable selection/Copy of UIWebView */    -webkit-touch-callout: none;
+	 /* disable the IOS popup when long-press on a link */
+}
+
+a {
+		border: 0;
+		text-decoration: none;
+		color: white;
+}
+
+.invisible {
+		visibility: hidden;
+}
+
+.visible {
+		visibility: normal;
+}
+
+.flashing {
+	    -webkit-animation: flashing 0.5s;
+	    animation: flashing 0.5s;
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+}
+
+@-webkit-keyframes flashing {
+	    0%	{
+		filter:alpha(opacity=0);
+		 opacity:0;
+	}
+
+		100% {
+		filter:alpha(opacity=1);
+		 opacity:1;
+	}
+
+}
+
+@keyframes flashing {
+	    0%	{
+		filter:alpha(opacity=0);
+		 opacity:0;
+	}
+
+		100% {
+		filter:alpha(opacity=1);
+		 opacity:1;
+	}
+
+}
+.appGreen {
+	background-color: #969B39
+}
+
+.yellow {
+		background: #FFDD00;
+}
+
+.black {
+		background: #000000;
+}
+
+.white {
+		background: #FFFFFF;
+}
+
+.gray {
+		background: #F7F7F7;
+}
+
+.dark {
+	    background-color: #333333;
+	    color: #CCCCCC;
+}
+
+/* App Store QR Code */.app-qrcode-wrapper {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		display: table;
+		z-index: 500000;
+	    background-color: rgb(241, 241, 241);
+	    background-color: rgba(241, 241, 241, 0.95);
+		visibility: hidden;
+		-webkit-user-select: none;
+	 /* disable selection/Copy of UIWebView */    -webkit-touch-callout: none;
+	 /* disable the IOS popup when long-press on a link */
+}
+
+.app-qrcode-wrapper.weixin-visible {
+		visibility: visible;
+}
+
+.app-qrcode-wrapper-2 {
+		display: table-cell;
+		vertical-align: middle;
+}
+
+.app-qrcode {
+		background-color: #FFFFFF;
+		padding: 20px;
+		width: 200px;
+		margin: 0 auto;
+}
+
+.app-qrcode-image img {
+		width: 100%;
+		height: auto;
+}
+
+/* QR Code */.qrcode-wrapper {
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		width: 100px;
+		text-align: center;
+}
+
+@media only screen and (max-width: 499px) {
+		.qrcode-wrapper {
+				display: none;
+		}
+
+	}
+
+.qrcode-image img {
+		width: 100%;
+		height: auto;
+}
+
+/* Main Area */.main-wrapper {
+		width: 100%;
+		height: auto;
+		margin: 0;
+}
+
+.main-text {
+		margin: 0 auto;
+		padding: 20px 0 10px 0;
+		width: 250px;
+		position: relative;
+		text-align: center;
+}
+
+.logo {
+		width: 60%;
+		height: auto;
+		margin: 0 auto;
+		display: none;
+}
+
+.logo img {
+		width: 100%;
+		height: auto;
+}
+
+.slogan {
+		width: 80%;
+		margin: 0 auto;
+		display: none;
+}
+
+.slogan img {
+		width: 100%;
+}
+
+.download-buttons {
+		margin: 0 auto;
+		display: table;
+}
+
+.download-buttons-button {
+		text-transform: uppercase;
+		text-align: center;
+		padding: 10px 16px;
+		border-radius: 10px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		background-color: #000000;
+		display: table;
+		margin: 0;
+		line-height: 0;
+		font-size: 1em;
+		color: #FFFFFF;
+		cursor: pointer;
+		font-weight: bold;
+}
+
+.download-buttons-button:active {
+		background-color: #444444;
+}
+
+.download-buttons-button-icon {
+		display: table-cell;
+		vertical-align: middle;
+}
+
+.download-buttons-button-text {
+		display: table-cell;
+		vertical-align: middle;
+		padding: 0 0 0 8px;
+}
+
+.download-buttons-button-icon img {
+		width: auto;
+		height: 15px;
+}
+
+.download-desc {
+		margin: 5px 0 0 0;
+		color: #000000;
+}
+
+.main-screenshots {
+		margin: 0 auto;
+		width: 250px;
+		position: relative;
+		line-height: 0;
+}
+
+@media only screen and (min-width: 400px)and (max-width: 499px) {
+		.main-text {
+				padding: 30px 0 20px 0;
+		}
+
+	}
+
+@media only screen and (min-width: 500px) {
+			.main-screenshots {
+				width: 320px;
+		}
+
+			.main-text {
+				padding: 40px 0 30px 0;
+		}
+
+	}
+
+.iphone {
+		width: 100%;
+		height: auto;
+}
+
+.iphone img {
+		width: 100%;
+		height: 100%;
+}
+
+.screenshots {
+		width: 80%;
+		left: 10%;
+		height: auto;
+		position: absolute;
+		bottom: 0;
+		z-index: 10000;
+}
+
+.screenshots img {
+		width: 100%;
+		height: auto;
+}
+
+.pictures {
+		width: 80%;
+		left: 10%;
+		top: 29%;
+		height: auto;
+		position: absolute;
+		z-index: 20000;
+}
+
+.pictures-big {
+		width: 100%;
+		left: 0;
+		top: 0;
+		height: auto;
+		position: absolute;
+		z-index: 20000;
+}
+
+.pictures img, .pictures-big img {
+		width: 100%;
+		height: auto;
+}
+
+.pictures-zooming {
+		width: 100%;
+		left: 0;
+		top: 0;
+		height: auto;
+		position: absolute;
+		z-index: 20000;
+}
+
+@-webkit-keyframes pictures-zooming {
+	    0%	{
+		filter:alpha(opacity=0);
+		 opacity:0;
+	}
+
+		100% {
+		filter:alpha(opacity=1);
+		 opacity:1;
+	}
+
+}
+
+@keyframes pictures-zooming {
+	    0%	{
+		filter:alpha(opacity=0);
+		 opacity:0;
+	}
+
+		100% {
+		filter:alpha(opacity=1);
+		 opacity:1;
+	}
+
+}
+
+/*Sector Title*/.sector-title-wrapper {
+		padding: 30px 0 0 0;
+		width: 100%;
+		text-align: center;
+		overflow: hidden;
+}
+
+.sector-title {
+		margin: 5px 0;
+}
+
+.sector-title-arrow {
+		line-height: 0;
+}
+
+.sector-title-arrow img {
+		width: 10px;
+		height: auto;
+}
+
+/* Features */.features-wrapper {
+		width: 100%;
+		background: #F7F7F7;
+		text-align: center;
+		padding: 0 0 40px 0;
+}
+
+.features {
+		margin: 0 auto;
+		width: 900px;
+		overflow: auto;
+}
+
+.features-feature {
+		width: 240px;
+		text-align: left;
+		padding: 30px;
+		float: left;
+}
+
+.features-feature-image {
+		line-height: 0;
+}
+
+.features-feature-image img {
+		width: 100%;
+		height: auto;
+}
+
+@media only screen and (max-width: 900px)and (min-width: 701px) {
+		.features {
+				width: 100%;
+		}
+
+		.features-feature {
+				width: 26.6%;
+				text-align: left;
+				padding: 10px 3%;
+				float: left;
+		}
+
+}
+
+@media only screen and (max-width: 700px) {
+		.features {
+				width: 100%;
+				max-width: 350px;
+		}
+
+		.features-feature {
+				width: 90%;
+				text-align: left;
+				padding: 10px 5%;
+				float: left;
+		}
+
+			.features-feature-image {
+				clear: both;
+				margin: 0 auto;
+				display: table;
+		}
+
+	}
+
+.features-feature-title {
+		font-weight: bold;
+		margin: 10px 0 5px 0;
+		font-size: 1em;
+}
+
+.features-feature-description {
+}
+
+.features-feature-blink {
+	    -webkit-animation: blink 0.4s;
+	    animation: blink 0.4s;
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
+
+@-webkit-keyframes blink {
+	    0%	{
+		filter:alpha(opacity=1);
+		 opacity:1;
+	}
+
+		50% {
+		filter:alpha(opacity=0.5);
+		 opacity:0.5;
+	}
+
+		100% {
+	}
+
+}
+
+@keyframes blink {
+	    0%	{
+		filter:alpha(opacity=1);
+		 opacity:1;
+	}
+
+		50% {
+		filter:alpha(opacity=0.5);
+		 opacity:0.5;
+	}
+
+		100% {
+	}
+
+}
+
+/* Footer */.footer {
+	    width: 100%;
+	       padding: 30px 0 80px 0;
+	    text-align: center;
+	    display: table;
+	    top: 0;
+	    margin: 0;
+}
+
+.footer a{
+	    color: #CCC;
+	    padding-bottom: 2px;
+	    border-bottom: 1px #CCC solid;
+	    text-decoration: none;
+}
+
+.footer a:hover{
+	    color: #999;
+	    border-bottom: 1px #999 solid;
+}
+
+.footer-wrapper {
+	    display: table-cell;
+	    vertical-align: middle;
+	    height: 100%;
+}
+
+.credit {
+	    margin: 0 auto;
+	    width: 100%;
+}
+
+.logo-company {
+	    margin: 0 auto;
+}
+
+.logo-company img {
+		width: 120px;
+		height: auto;
+}
+
+.description-company {
+	    margin: 0 auto 20px auto;
+	    width: 80%;
+		max-width: 400px;
+	    text-align: left;
+}
+
+@media only screen and (max-width: 501px) {
+	    .copyright {
+		    margin: 40px auto 0 auto;
+		    text-align: center;
+	}
+
+	@media only screen and (max-width: 540px) {
+		    .copyright {
+			        width: 90%;
+			    
+		}
+
+		      
+	}
