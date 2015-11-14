@@ -505,7 +505,7 @@ var picId=xmlhttp.responseText
  picId=JSON.parse(picId)
   picId=picId.id
   localStorage.userId=picId;
-  window.location.href="http://app.yamichefs.com/cook/daka/pic.html?pic="+picId;
+  window.location.href="pic.html?pic="+picId;
   }
 xmlhttp.open("POST","https://d.apicloud.com/mcm/api/DKWebFile",true);
 xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
