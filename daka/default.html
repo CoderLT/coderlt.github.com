@@ -1,0 +1,100 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>大咖APP自拍一下，一秒变身萌英雄</title>
+</head>
+<link rel="stylesheet" href="css/css.css">
+<script src="js/sha1.js"></script>
+<script src="js/jquery.js"></script>
+<body style="background:#000">
+<div class="add1"><img src="images/add1.jpg"></div>
+<div class="moreList">
+ <ul>
+ <li><a href="index1.html"><img src="images/mb2.jpg"></a></li>
+ <li><a href="index2.html"><img src="images/mb3.jpg"></a></li>
+ <li><a href="index3.html"><img src="images/mb4.jpg"></a></li>
+ <li><a href="index.html"><img src="images/mb1.jpg"></a></li>
+ </ul>
+ <div class="clear"></div>
+</div>
+<div class="downButton">
+  <p>下载大咖APP，上千套最IN最有趣的模板任你玩</p>
+  <a id="down" href="https://coderlt.github.io">下载大咖APP</a>
+</div>
+
+<div class="shareBg"></div>
+<div class="sharepic"><img src="images/shareJt.png"></div>
+<script>
+window.onload=function(){
+	loadXMLDoc(function(height){		
+		  $("#picYd").css("height",height+"px");
+		  	
+		   setTimeout(function(){
+				 $("#picYd").fadeIn();
+			},1000)	
+		setTimeout(function(){
+				$("#picYd").fadeOut()
+			},4000)
+		});
+  $("#shareButton").click(function(e) {
+    $(".shareBg").fadeIn();
+	$(".sharepic").fadeIn();
+});
+$(".shareBg").click(function(e) {
+    $(".shareBg").fadeOut();
+	$(".sharepic").fadeOut();
+});
+	}
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+ 
+// 调用方法
+var mobanId=1;
+var moban=["index.html","index1.html","index2.html","index3.html"];
+
+var showImg=GetQueryString("pic");
+var now=new Date().getTime()-new Date("2001-01-01").getTime();
+var appKey = hex_sha1("A6995678227283"+"UZ"+"1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0"+"UZ"+now); 
+Key = appKey+"."+now 
+function loadXMLDoc(callback)
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function(){ 
+var response=JSON.parse(xmlhttp.responseText)
+var userId=localStorage.userId;
+    userId2=response.id;
+	name=response.name;
+	if(userId!=userId2){
+		$("#makeAgain").html("我也要做")
+		$(".OKtxt").html("<span>大咖-"+name+"，长按可保存图片</span>")
+		}
+    picId=response.file;
+	mobanId=parseInt(response.moban);	
+	picId=picId.replace(/\s/g,"+")	
+    document.getElementById("txt").src=picId;
+	document.getElementById("txt").addEventListener("load",function(e){var txtHeight=$("#txt").height();callback(txtHeight)},false)	
+	$("#makeAgain").click(function(e) {
+        window.location.href=moban[mobanId];	
+    });
+  }
+xmlhttp.open("GET","https://d.apicloud.com/mcm/api/DKWebFile/"+showImg,false);
+xmlhttp.setRequestHeader("X-APICloud-AppKey",Key);
+xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");                       
+xmlhttp.send();
+}
+</script>
+</body>
+</html>
