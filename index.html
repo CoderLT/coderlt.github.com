@@ -112,30 +112,24 @@
 		        iPhone: u.indexOf('iphone') > -1, //是否为iPhone
 		        iPad: u.indexOf('ipad') > -1, //是否iPad
 	        	mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
-	        	wechat: /MicroMessenger/.test(u), //是否是微信
 		    };
 		}
 		function open_app() {
 			var b = browser();
-			if (!b.mobile) {
-				window.location = "https://itunes.apple.com/cn/app/id994908085?mt=8";
-			}
-			else if (b.ios || b.iPhone || b.iPad) {
+			if (b.ios || b.iPhone || b.iPad) {
 		        // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
 		        // 否则打开a标签的href链接
 		        var ifr = document.createElement('iframe');
-		        ifr.src = 'wb3843729792://';
+		        ifr.src = 'com.coderlt.daka://open';
 		        ifr.style.display = 'none';
 		        document.body.appendChild(ifr);
 		        window.setTimeout(function(){
 		            document.body.removeChild(ifr);
-		            if (u.wechat) {
-						window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
-		            }
-		            else {
-						window.location = "https://itunes.apple.com/cn/app/id994908085?mt=8";
-		            }
+					window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
 		        },300);
+			}
+			else if (!b.mobile) {
+				window.location = "https://itunes.apple.com/cn/app/id994908085?mt=8";
 			}
 			else {
 				window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
