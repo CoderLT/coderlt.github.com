@@ -112,7 +112,7 @@
 		        iPhone: u.indexOf('iphone') > -1, //是否为iPhone
 		        iPad: u.indexOf('ipad') > -1, //是否iPad
 	        	mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
-	        	wechat: /MicroMessenger/i.test(navigator.userAgent), //是否是微信
+	        	wechat: /MicroMessenger/.test(u), //是否是微信
 		    };
 		}
 		function open_app() {
