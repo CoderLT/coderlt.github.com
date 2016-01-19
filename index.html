@@ -11,12 +11,11 @@
         <meta property="og:description" content="" />
         <link rel="icon" type="image/png" href="resource/YanZhaoLogo.png" />
 		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="resource/YanZhaoLogo.png">
-		<script src="resource/main_page.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="resource/main_page.css" type="text/css" media="screen">
     </head>
     
     <body class="black" ontouchstart="">
-		
+		<meta name='apple-itunes-app' content='app-id=477927812'>
 		<!-- QR Code Starts -->
 		<div class="qrcode-wrapper">
 			<div class="qrcode-image">
@@ -48,11 +47,17 @@
 			<div class="main-text">
 				<div class="download-buttons">
 					<div class="download-buttons-button">
+						<div class="download-buttons-button-icon" >
+							<a href="javascript:void(0)" onclick="open_app()"><img src="resource/logo-apple-white.png"></a>
+						</div>
+						<div class="download-buttons-button-text">
+							<a href="javascript:void(0)" onclick="open_app()">  </a>
+						</div>
 						<div class="download-buttons-button-icon">
-							<a href="#"><img src="resource/logo-apple-white.png"></a>
+							<a href="javascript:void(0)" onclick="open_app()"><img src="resource/logo-android-white.png"></a>
 						</div>
 						<div class="download-buttons-button-text app-download-triger">
-							<a href="#">下载 大咖</a>
+							<a href="javascript:void(0)" onclick="open_app()">下载大咖</a>
 						</div>
 					</div>
 				</div>
@@ -98,16 +103,38 @@
         </div>
 		
 		<!-- Footer Ends -->
-		
+		<script type="text/javascript">
+		function browser() {
+		    var u = navigator.userAgent.toLowerCase();
+		    return {
+		        ios: !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/), //ios终端
+		        android: u.indexOf('android') > -1, //android终端
+		        iPhone: u.indexOf('iphone') > -1, //是否为iPhone
+		        iPad: u.indexOf('ipad') > -1, //是否iPad
+	        	mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
+		    };
+		}
+		function open_app() {
+			var b = browser();
+			if (b.ios || b.iPhone || b.iPad) {
+		        // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
+		        // 否则打开a标签的href链接
+		        var ifr = document.createElement('iframe');
+		        ifr.src = 'com.coderlt.daka://';
+		        ifr.style.display = 'none';
+		        document.body.appendChild(ifr);
+		        window.setTimeout(function(){
+		            document.body.removeChild(ifr);
+					window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
+		        },3000);
+			}
+			else if (!b.mobile) {
+				window.location = "https://itunes.apple.com/cn/app/id994908085?mt=8";
+			}
+			else {
+				window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
+			}
+		}
+		</script>
 	</body>
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-63484588-1', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
 </html>
