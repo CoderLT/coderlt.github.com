@@ -1,0 +1,105 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>大咖APP</title>
+</head>
+<link rel="stylesheet" href="css/css.css">
+<script src="js/sha1.js"></script>
+<script src="js/jquery.js"></script>
+<body style="background:#000">
+<img src="images/Logo1024C.png" style="width:1px;height:0px; opacity:0">
+<div class="picPic"><img src="" id="txt"><div id="picYd" style="display:none"><img src="images/resizeApi.png" id="picYdpic"><div id="picTxt">长按图片可将照片保存到相册</div></div></div>
+<div class="OKtxt"><i><img src="images/picokicon.png"></i><span>图片制作完成！长按保存图片。<span></div>
+<div class="picButton"><a id="shareButton">我要分享</a><a id="makeAgain">再来一张</a></div>
+<div class="moreTitle"><span>更多模板</span></div>
+<div class="moreList">
+ <ul>
+ <li><a href="index.html?model=0"><img src="images/0.jpg"></a></li>
+ <li><a href="index.html?model=1"><img src="images/1.jpg"></a></li>
+ <li><a href="index.html?model=2"><img src="images/2.jpg"></a></li>
+ <li><a href="index.html?model=3"><img src="images/3.jpg"></a></li>
+ </ul>
+ <div class="clear"></div>
+</div>
+<!-- <div class="adButton"><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzQ1MDYzNg==&mid=400640570&idx=1&sn=24fbaa6787ea0bfc0bf2e82d1ac6d55b#rd">喵咪故事</a><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzQ1MDYzNg==&mid=400719238&idx=1&sn=e1dc20000224608092e0e04ca82bd672#rd">喵咪产品</a></div> -->
+<div class="downButton">
+  <p>下载大咖APP，上千套最IN最有趣的模板任你玩</p>
+  <a id="down" href="https://coderlt.github.io">下载大咖APP</a>
+</div>
+<div class="shareBg"></div>
+<div class="sharepic"><img src="images/shareJt.png"></div>
+<script>
+window.onload=function(){
+	loadXMLDoc(function(height){		
+		  $("#picYd").css("height",height+"px");
+		  	
+		   setTimeout(function(){
+				 $("#picYd").fadeIn();
+			},1000)	
+		setTimeout(function(){
+				$("#picYd").fadeOut()
+			},4000)
+		});
+  $("#shareButton").click(function(e) {
+    $(".shareBg").fadeIn();
+	$(".sharepic").fadeIn();
+});
+$(".shareBg").click(function(e) {
+    $(".shareBg").fadeOut();
+	$(".sharepic").fadeOut();
+});
+	}
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+ 
+// 调用方法
+var mobanId=0;
+var moban=["index.html?model=0","index.html?model=1","index.html?model=2","index.html?model=3"];
+
+var showImg=GetQueryString("pic");
+var now=new Date().getTime()-new Date("2001-01-01").getTime();
+var appKey = hex_sha1("A6995678227283"+"UZ"+"1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0"+"UZ"+now); 
+Key = appKey+"."+now 
+function loadXMLDoc(callback)
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function(){ 
+var response=JSON.parse(xmlhttp.responseText)
+var userId=localStorage.userId;
+    userId2=response.id;
+	name=response.name;
+	if(userId!=userId2){
+		$("#makeAgain").html("我也要做")
+		$("title").html("大咖APP-一秒变"+name)
+		$(".OKtxt").html("<span>大咖-"+name+"，长按可保存图片</span>")
+		}
+    picId=response.file;
+	mobanId=parseInt(response.moban);	
+	picId=picId.replace(/\s/g,"+")	
+    document.getElementById("txt").src=picId;
+	document.getElementById("txt").addEventListener("load",function(e){var txtHeight=$("#txt").height();callback(txtHeight)},false)	
+	$("#makeAgain").click(function(e) {
+        window.location.href=moban[mobanId];	
+    });
+  }
+xmlhttp.open("GET","https://d.apicloud.com/mcm/api/DKWebFile/"+showImg,false);
+xmlhttp.setRequestHeader("X-APICloud-AppKey",Key);
+xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");                       
+xmlhttp.send();
+}
+</script>
+</body>
+</html>
