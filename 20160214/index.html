@@ -422,7 +422,7 @@ touch.on('#circle', 'dragend', function(ev){
 	$(".num").hide()
 	
 	 picTranseObj2 = AlloyImage(target1);	   
-	 var grayPic = picTranseObj2.clone().act("curve",[0,128-(brightness-1)*64,255], [0,128+(brightness-1)*64,255]).act("setHSI",colorNum/4,0,0,false);
+	 var grayPic = picTranseObj2.clone().act("curve",[0,128-(brightness-1)*64,255], [0,128+(brightness-1)*64,255]).act("setHSI",colorNum/4,100,0,false);
       grayPic.replace(target);
 	 	
 });	
@@ -456,7 +456,7 @@ touch.on('#circle1', 'dragend', function(ev){
 	cx += ev.x;
 	
 	 picTranseObj2 = AlloyImage(target1);	   
-	 var grayPic = picTranseObj2.clone().act("curve",[0,128-(brightness-1)*64,255], [0,128+(brightness-1)*64,255]).act("setHSI",colorNum/4,0,0,false);
+	 var grayPic = picTranseObj2.clone().act("curve",[0,128-(brightness-1)*64,255], [0,128+(brightness-1)*64,255]).act("setHSI",colorNum/4,100,0,false);
       grayPic.replace(target);
 		
 	 $(".num").hide()
