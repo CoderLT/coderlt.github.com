@@ -946,5 +946,28 @@ window.AlloyImage = $AI = window.psLib;
         }
     })
 })("psLib");
+(function(h) {
+    window[h].module("setNoise", function() {
+        return {
+            process: function(h, b) {
+                var intensity = b[0], isGray = b[1];
+                var ATNoiseRseed = 115;
+                for (var b = h.data, a = 0, c = b.length; a < c; a += 4) {
+                    var randR = (((ATNoiseRseed = (ATNoiseRseed * 214013 + 2531011) & 0x7FFFFFFF) >> 16)%511-255) * intensity;
+                    var randG = isGray ? randR : (((ATNoiseRseed = (ATNoiseRseed * 214013 + 2531011) & 0x7FFFFFFF) >> 16)%511-255) * intensity;
+                    var randB = isGray ? randR : (((ATNoiseRseed = (ATNoiseRseed * 214013 + 2531011) & 0x7FFFFFFF) >> 16)%511-255) * intensity;
+                    b[a + 0] += randR;
+                    b[a + 1] += randG;
+                    b[a + 2] += randB;
+                    b[a + 0] = b[a + 0] < 0 ? 0 : (b[a + 0] > 255 ? 255 : b[a + 0]);
+                    b[a + 1] = b[a + 1] < 0 ? 0 : (b[a + 1] > 255 ? 255 : b[a + 1]);
+                    b[a + 2] = b[a + 2] < 0 ? 0 : (b[a + 2] > 255 ? 255 : b[a + 2]);
+                }
+                h.data = b;
+                return h
+            }
+        }
+    })
+})("psLib");
 
 

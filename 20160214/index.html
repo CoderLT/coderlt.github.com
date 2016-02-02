@@ -142,7 +142,7 @@ var model = parseInt(GetQueryString("model"));
 if (!(model >= 0 && model <= 3)) {
 	model = 0;
 }
-var title="",originImageURL="",psImageURL="",awayLeft=0.42,awayRight=0.80,awayTop=0.4,_S=0/*饱和度[-50,50]*/,_C=0/*对比度[-50,50]*/,_B=0/*亮度[-50, 50]*/,_CUR=0/*曲线[-128-128]*/,_H=0/*色相*/,_G=0/*高斯模糊*/,_SHA=0/*锐化*/,_NOISE=1/*杂色*/,_RGBR=1,_RGBG=1,_RGBB=1/*RGB[0,2]*/;
+var title="",originImageURL="",psImageURL="",awayLeft=0.42,awayRight=0.80,awayTop=0.4,_S=0/*饱和度[-50,50]*/,_C=0/*对比度[-50,50]*/,_B=0/*亮度[-50, 50]*/,_CUR=0/*曲线[-128-128]*/,_H=0/*色相*/,_G=0/*高斯模糊*/,_SHA=0/*锐化*/,_NOISE=0, _isVariegatedSingleColor=1/*杂色*/,_RGBR=1,_RGBG=1,_RGBB=1/*RGB[0,2]*/;
 // $.getJSON("models.json", function(data){
 	data = JSON.parse("{\"content\":[{\"hue\":\"0\",\"rgbR\":\"1.07074\",\"title\":\"教主与Baby\",\"brightness\":\"0\",\"contrast\":\"1\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.18328\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.9163987\",\"toneCurve\":\"0\",\"variegated\":\"0.04501608\"},{\"hue\":\"-1.446945\",\"rgbR\":\"1.102894\",\"title\":\"凯威与杨幂\",\"brightness\":\"-0.05948553\",\"contrast\":\"0.8569132\",\"gaussianBlur\":\"0.4630225\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.118167\",\"rgbG\":\"1.041801\",\"sharpen\":\"0\",\"staturation\":\"0.8705788\",\"toneCurve\":\"0\",\"variegated\":\"0.10659164\"},{\"hue\":\"0\",\"rgbR\":\"1.22508\",\"title\":\"娘娘与学霸\",\"brightness\":\"-0.06953376\",\"contrast\":\"1.118971\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.064309\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.7692926\",\"toneCurve\":\"24.10611\",\"variegated\":\"0.05080386\"},{\"hue\":\"3.762058\",\"rgbR\":\"1.202572\",\"title\":\"范爷和李晨\",\"brightness\":\"0.04340836\",\"contrast\":\"1.086817\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.266881\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.5980707\",\"toneCurve\":\"25.32154\",\"variegated\":\"0.03922829\"}]}");
 	modelData = data["content"][model];
@@ -174,7 +174,8 @@ var title="",originImageURL="",psImageURL="",awayLeft=0.42,awayRight=0.80,awayTo
 	_H=parseFloat(modelData.hue);/*色相*/
 	_G=parseFloat(modelData.gaussianBlur);/*高斯模糊*/
 	_SHA=parseFloat(modelData.sharpen);/*锐化*/
-	_NOISE=100*parseFloat(modelData.variegated);/*杂色*/
+	_NOISE=parseFloat(modelData.variegated);/*杂色*/
+	_isVariegatedSingleColor=parseInt(modelData.isVariegatedSingleColor);/*杂色*/
 	_RGBR = parseFloat(modelData.rgbR);
 	_RGBG = parseFloat(modelData.rgbG);
 	_RGBB = parseFloat(modelData.rgbB);/*RGB[0,2]*/
@@ -271,8 +272,8 @@ var src = window.URL.createObjectURL(this.files[0]);
 	  var target1=document.getElementById("photoImg1");
 	  target.style.position="absolute";
 	   target.onload = function ()
-        {	
-		psLib(this).act("noise",_NOISE).act("gaussBlur",_G).act("sharp",_SHA).act("setRGB",_RGBR,_RGBG,_RGBB).act("curve",[0,128-_CUR,255], [0,128+_CUR,255]).act("brightness",_B,_C).act("setHSI",_H,_S,0,false).replace(this);
+        {
+		psLib(this).act("setNoise",_NOISE,_isVariegatedSingleColor).act("gaussBlur",_G).act("sharp",_SHA).act("setRGB",_RGBR,_RGBG,_RGBB).act("curve",[0,128-_CUR,255], [0,128+_CUR,255]).act("brightness",_B,_C).act("setHSI",_H,_S,0,false).replace(this);
 		document.getElementById("photoImg1").src=this.src;
 		
 		this.onload = function ()
