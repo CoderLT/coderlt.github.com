@@ -516,11 +516,11 @@ $(".makeButton").click(function(){
   $(".loading p").html("图片生成中..");
 	var target = document.getElementById("photoImg");
 
-	// if(androidMicromessenger==0){
- //    	psLib(target).act("setHSI",0,100,0,false). act("brightness",0,0).replace(target);	
-	// }else{
-	// 	psLib(target).act("setHSI",0,100,0,false). act("brightness",0,0).replace(target);	
-	// }
+	if(androidMicromessenger==0){
+    	psLib(target).act("setHSI",0,100,0,false). act("brightness",0,0).replace(target);	
+	}else{
+		psLib(target).act("setHSI",0,100,0,false). act("brightness",0,0).replace(target);	
+	}
 	
      var img=new Image();
      img.src=document.getElementById('imgMask').src;	
