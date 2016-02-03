@@ -60,48 +60,24 @@ function GetQueryString(name)
      if(r!=null)return  unescape(r[2]); return null;
 }
  
-// 调用方法
-var mobanId=0;
-var moban=["index.html?model=0","index.html?model=1","index.html?model=2","index.html?model=3"];
+function loadXMLDoc(callback) {
+var userId = GetQueryString("userId");
+var showImg = GetQueryString("pic");
+var model = parseInt(GetQueryString("model"));
+var title = GetQueryString("title");
 
-var showImg=GetQueryString("pic");
-var now=new Date().getTime()-new Date("2001-01-01").getTime();
-var appKey = hex_sha1("A6995678227283"+"UZ"+"1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0"+"UZ"+now); 
-Key = appKey+"."+now 
-function loadXMLDoc(callback)
-{
-var xmlhttp;
-if (window.XMLHttpRequest)
-  {
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function(){ 
-var response=JSON.parse(xmlhttp.responseText)
-var userId=localStorage.userId;
-    userId2=response.id;
-	name=response.name;
-	if(userId!=userId2){
-		$("#makeAgain").html("我也要做")
-		$("title").html("大咖APP-一秒变"+name)
-		$(".OKtxt").html("<span>大咖-"+name+"，长按可保存图片</span>")
-		}
-    picId=response.file;
-	mobanId=parseInt(response.moban);	
-	picId=picId.replace(/\s/g,"+")	
-    document.getElementById("txt").src=picId;
-	document.getElementById("txt").addEventListener("load",function(e){var txtHeight=$("#txt").height();callback(txtHeight)},false)	
-	$("#makeAgain").click(function(e) {
-        window.location.href=moban[mobanId];	
-    });
-  }
-xmlhttp.open("GET","https://d.apicloud.com/mcm/api/DKWebFile/"+showImg,false);
-xmlhttp.setRequestHeader("X-APICloud-AppKey",Key);
-xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");                       
-xmlhttp.send();
+if(localStorage.userId != userId){
+	$("#makeAgain").html("我也要做")
+	$("title").html("大咖APP-一秒变"+title)
+	$(".OKtxt").html("<span>大咖-"+title+"，长按可保存图片</span>")
+}
+document.getElementById("txt").src=showImg;
+document.getElementById("txt").addEventListener("load",function(e){var txtHeight=$("#txt").height();callback(txtHeight)},false);
+$("#makeAgain").click(function(e) {
+	// 调用方法
+	var moban=["index.html?model=0","index.html?model=1","index.html?model=2","index.html?model=3"];
+    window.location.href=moban[model];
+});
 }
 </script>
 </body>

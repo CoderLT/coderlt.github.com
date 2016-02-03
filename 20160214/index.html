@@ -87,7 +87,7 @@ return this;
 
 <div class="makeMain">
 <div class="num" style="position:absolute;left:50%;top:50%;z-index:999;font-size:60px;width:100px;text-align:center;height:60px;line-height:60px;color:#ffffff;font-family:'Arial Black', Gadget, sans-serif;margin-left:-50px;margin-top:-70px;z-index:9999;display:none;">0</div>
- <div class="makeBorder" style="width:100%;height:100%;position:fixed;z-index:99;left:100%">
+ <div class="makeBorder" style="width:100%;height:100%;position:absolute;z-index:99;left:100%">
   <div id="makeTopPic"><img src="" id="imgMask"></div> 
  </div> 
  <div id="yes"></div>
@@ -132,6 +132,7 @@ return this;
 <script src="js/BrightnessContrast.js"></script>
 </html>
 <script type="text/javascript">
+var userId = localStorage.userId;
 function GetQueryString(name)
 {
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -182,8 +183,11 @@ var title="",originImageURL="",psImageURL="",awayLeft=0.42,awayRight=0.80,awayTo
 	$("title").html(title);
 	document.getElementById("imgOrginal").src="images/"+(model)+".jpg";
 	document.getElementById("imgMask").src="images/"+(parseInt(model)+4)+".png";
-	// var IndexPicHeight=$(".indexPic").height();
-	// $(".indexPic").css("margin-top",-IndexPicHeight/2+"px");
+
+    document.getElementById("imgOrginal").onload=function(){
+		var IndexPicHeight=$(".indexPic").height();
+		$(".indexPic").css("margin-top",-IndexPicHeight/2+"px");
+	}
 
  ctxLoading.sector(50,50,25,Math.PI/180*50,Math.PI/180*260).fill(); 
 function browser() {
@@ -276,24 +280,26 @@ var src = window.URL.createObjectURL(this.files[0]);
 		psLib(this).act("setNoise",_NOISE,_isVariegatedSingleColor).act("gaussBlur",_G).act("sharp",_SHA).act("setRGB",_RGBR,_RGBG,_RGBB).act("curve",[0,128-_CUR,255], [0,128+_CUR,255]).act("brightness",_B,_C).act("setHSI",_H,_S,0,false).replace(this);
 		document.getElementById("photoImg1").src=this.src;
 		
-		this.onload = function ()
-		{  
-		$(".loading").hide();
-	  $(".loadLogo").hide();
-	  
-	  if(localStorage.userId==undefined){
-		  $(".ydMain").show();
-		  $(".ydCon p.yd_2").click(function(){
-			  $(".ydCon").hide();
-			  $(".ydCon2").show();
-			  $(".ydLoadPic").show();
-			  $(".ydLoadPic").height($(".ydLoadPic").width())
-			  $(".ydLoadPic img").attr("src",document.getElementById("photoImg1").src)
-			  })
-		  $(".ydCon2 p.yd_2").click(function(){
-			  $(".ydMain").hide();
-			  })
-		  }
+		this.onload = function() {  
+			$(".loading").hide();
+		    $(".loadLogo").hide();
+	  		if (!(userId && userId!="undefined")) {
+	  			userId = "DK" + new Date().getTime();
+	  			localStorage.userId = userId;
+
+				$(".ydMain").show();
+				$(".ydCon p.yd_2").click(function() {
+					$(".ydCon").hide();
+					$(".ydCon2").show();
+					$(".ydLoadPic").show();
+					$(".ydLoadPic").height($(".ydLoadPic").width());
+					$(".ydLoadPic img").attr("src",document.getElementById("photoImg1").src);
+				});
+				$(".ydCon2 p.yd_2").click(function(){
+					$(".ydMain").hide();
+				});
+	  		};
+
 	var allWidth=$(".makeBorder").width();
 	var allHeight=$(".makeBorder").height();
 	      picWidth=$("#photoImg").width();
@@ -560,8 +566,18 @@ $(".makeButton").click(function(){
     ctx.restore()
 	ctx.drawImage(img,0,0,topPicWidth,topPicHeight)
 	 showImg= document.getElementById('myCanvas').toDataURL("image/jpeg");
-	/*document.write("<img src='"+showImg+"' alt='from canvas' class='dataImg'/>")*/
-	    loadXMLDoc();
+	// document.write("<img src='"+showImg+"' alt='from canvas' class='dataImg'/>")
+
+	// dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+	showImg=showImg.split(',')[1];
+	showImg=window.atob(showImg);
+	var array8Int = new Uint8Array(showImg.length);
+	for (var i = 0; i < showImg.length; i++) {
+	    array8Int[i] = showImg.charCodeAt(i);
+	};
+	// canvas.toDataURL 返回的默认格式就是 image/png
+	var finishImage = getBlobImage(array8Int);
+	loadXMLDoc(finishImage);
 	}
 	})
 }
@@ -570,7 +586,7 @@ ctxLoading.sector(50,50,25,Math.PI/180*30,Math.PI/180*300).fill();
 var now=new Date().getTime()-new Date("2001-01-01").getTime();
 var appKey = hex_sha1("A6995678227283"+"UZ"+"1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0"+"UZ"+now); 
 Key = appKey+"."+now // 结果 b132021b1389d075d31451b1b174f710f9c6fc1d.461820253716
-function loadXMLDoc()
+function loadXMLDoc(f)
 {
 var xmlhttp;
 if (window.XMLHttpRequest)
@@ -582,16 +598,52 @@ else
   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
   }
 xmlhttp.onreadystatechange=function(){
-var picId=xmlhttp.responseText
- picId=JSON.parse(picId)
-  picId=picId.id
-  localStorage.userId=picId;
-  window.location.href="pic.html?pic="+picId;
-  }
-xmlhttp.open("POST","https://d.apicloud.com/mcm/api/DKWebFile",true);
-xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+var response=xmlhttp.responseText 
+if (response) {
+ 	response = JSON.parse(response);
+  	if (response && response.url) {
+  		window.location.href="pic.html?pic="+response.url+"&model="+model+"&title="+title+"&userId="+userId;
+  	};
+};
+}  
+
+xmlhttp.open("POST","http://d.apicloud.com/mcm/api/file",true);
+// xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
 xmlhttp.setRequestHeader("X-APICloud-AppKey",Key);
-xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");                       
-xmlhttp.send("file="+showImg+"&&moban="+model+"&&name=大咖-情人节");
+xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");   
+// xmlhttp.send("file="+showImg+"&&moban="+model+"&&name="+title); 
+
+var formData = new FormData();
+// xmlhttp.setRequestHeader('Content-Type','multipart/form-data;boundary=---------------------------' + (new Date()).getTime());
+// formData.append('fileName', "image/jpeg");
+formData.append('file', f, title+new Date().getTime());  
+xmlhttp.send(formData);
+}
+
+function getBlobImage(array) {
+	var jpeg;
+	try {
+	  var jpeg = new Blob( [array], {type : "image/jpeg"});
+	}
+	catch(e){
+	    // TypeError old chrome and FF
+	    window.BlobBuilder = window.BlobBuilder || 
+	                         window.WebKitBlobBuilder || 
+	                         window.MozBlobBuilder || 
+	                         window.MSBlobBuilder;
+	    if(e.name == 'TypeError' && window.BlobBuilder){
+	        var bb = new BlobBuilder();
+	        bb.append([array.buffer]);
+	        jpeg = bb.getBlob("image/jpeg");
+	    }
+	    else if(e.name == "InvalidStateError"){
+	        // InvalidStateError (tested on FF13 WinXP)
+	        jpeg = new Blob( [array.buffer], {type : "image/jpeg"});
+	    }
+	    else{
+	        alert(e.name);  
+	    }
+	}
+	return jpeg;
 }
 </script>
