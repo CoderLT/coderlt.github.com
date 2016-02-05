@@ -603,7 +603,7 @@ var response=xmlhttp.responseText
 if (response) {
  	response = JSON.parse(response);
   	if (response && response.url) {
-  		window.location.href="pic.html?pic="+response.url+"&model="+model+"&title="+title+"&userId="+userId;
+  		window.location.href="default.html?pic="+response.url.replace("http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/","")+"&model="+model+"&title="+title+"&userId="+userId;
   	};
 };
 }  

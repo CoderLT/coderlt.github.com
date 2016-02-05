@@ -1,104 +1,178 @@
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-<title>给你一个完美的情人节</title>
-</head>
-<link rel="stylesheet" href="css/css.css">
-<script src="js/sha1.js"></script>
-<script src="js/jquery.js"></script>
-<body style="background:#000">
-<div class="add1"><img src="images/add1.jpg"></div>
-<div class="moreList">
- <ul>
- <li><a href="index.html?model=0"><img src="images/0.jpg"></a></li>
- <li><a href="index.html?model=1"><img src="images/1.jpg"></a></li>
- <li><a href="index.html?model=2"><img src="images/2.jpg"></a></li>
- <li><a href="index.html?model=3"><img src="images/3.jpg"></a></li>
- </ul>
- <div class="clear"></div>
-</div>
-<div class="adButton">
-<a href="http://www.heibaixiaoyuan.com/landwonder.html">黑白校园</a>
-<a href="http://hd.heibaixiaoyuan.com/share?act=view&obj_id=O75DmDCIvis&obj_type=activity&mode=white">晒合照赢大奖</a>
-</div>
-<div class="downButton">
-  <p>下载大咖APP，上千套最IN最有趣的模板任你玩</p>
-  <a id="down" href="https://coderlt.github.io">下载 大咖</a>
-</div>
 
-<div class="shareBg"></div>
-<div class="sharepic"><img src="images/shareJt.png"></div>
-<script>
-window.onload=function(){
-	loadXMLDoc(function(height){		
-		  $("#picYd").css("height",height+"px");
-		  	
-		   setTimeout(function(){
-				 $("#picYd").fadeIn();
-			},1000)	
-		setTimeout(function(){
-				$("#picYd").fadeOut()
-			},4000)
-		});
-  $("#shareButton").click(function(e) {
-    $(".shareBg").fadeIn();
-	$(".sharepic").fadeIn();
-});
-$(".shareBg").click(function(e) {
-    $(".shareBg").fadeOut();
-	$(".sharepic").fadeOut();
-});
-	}
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-}
- 
-// 调用方法
-var mobanId=1;
-var moban=["index.html","index1.html","index2.html","index3.html"];
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>给你一个完美的情人节</title>
+	</head>
+	<script src="js/jquery.js"></script>
+	<link rel="stylesheet" href="css/css.css">
 
-var showImg=GetQueryString("pic");
-var now=new Date().getTime()-new Date("2001-01-01").getTime();
-var appKey = hex_sha1("A6995678227283"+"UZ"+"1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0"+"UZ"+now); 
-Key = appKey+"."+now 
-function loadXMLDoc(callback)
-{
-var xmlhttp;
-if (window.XMLHttpRequest)
-  {
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function(){ 
-var response=JSON.parse(xmlhttp.responseText)
-var userId=localStorage.userId;
-    userId2=response.id;
-	name=response.name;
-	if(userId!=userId2){
-		$("#makeAgain").html("我也要做")
-		$(".OKtxt").html("<span>大咖-"+name+"，长按可保存图片</span>")
-		}
-    picId=response.file;
-	mobanId=parseInt(response.moban);	
-	picId=picId.replace(/\s/g,"+")	
-    document.getElementById("txt").src=picId;
-	document.getElementById("txt").addEventListener("load",function(e){var txtHeight=$("#txt").height();callback(txtHeight)},false)	
-	$("#makeAgain").click(function(e) {
-        window.location.href=moban[mobanId];	
-    });
-  }
-xmlhttp.open("GET","https://d.apicloud.com/mcm/api/DKWebFile/"+showImg,false);
-xmlhttp.setRequestHeader("X-APICloud-AppKey",Key);
-xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");                       
-xmlhttp.send();
-}
-</script>
-</body>
+	<body style="background:#000">
+		<img src="images/Logo1024C.png" style="width:1px;height:0px; opacity:0">
+		<div id="headPic" style="display:none">
+			<div class="picPic"><img src="" id="txt">
+				<div id="picYd" style="display:none"><img src="" id="picYdpic">
+					<div id="picTxt">长按图片可将照片保存到相册</div>
+				</div>
+			</div>
+			<div class="OKtxt"></div>
+			<div class="picButton"><a id="shareButton">我要分享</a><a id="makeAgain">再来一张</a></div>
+			<div class="moreTitle"><span>更多模板</span></div>
+		</div>
+		<div class="add1"><img src="images/add1.jpg"></div>
+		<div class="moreList" id="moreList">
+			<ul>
+				<li>
+					<a href="index.html?model=0" class="moreListHref"><img src="images/0.jpg"></a>
+				</li>
+				<li>
+					<a href="index.html?model=1" class="moreListHref"><img src="images/1.jpg"></a>
+				</li>
+				<li>
+					<a href="index.html?model=2" class="moreListHref"><img src="images/2.jpg"></a>
+				</li>
+				<li>
+					<a href="index.html?model=3" class="moreListHref"><img src="images/3.jpg"></a>
+				</li>
+			</ul>
+		</div>
+		<div class="adButton">
+			<a href="http://www.heibaixiaoyuan.com/landwonder.html">黑白校园</a>
+			<a href="http://hd.heibaixiaoyuan.com/share?act=view&obj_id=O75DmDCIvis&obj_type=activity&mode=white">晒合照赢大奖</a>
+		</div>
+		<div class="downButton">
+			<p>下载大咖APP，上千套最IN最有趣的模板任你玩</p>
+			<a id="down" href="https://coderlt.github.io">下载 大咖</a>
+		</div>
+		<div class="shareBg"></div>
+		<div class="sharepic"><img src="images/shareJt.png"></div>
+		<script>
+			var b = browser();
+			var userId = GetQueryString("userId");
+			var showImg = GetQueryString("pic");
+			var model = parseInt(GetQueryString("model"));
+			var title = GetQueryString("title");
+			if (showImg && showImg.length > 0) {
+				if (!/http:\/\//.test(showImg)) {
+					showImg = "http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/" + showImg;
+				}
+			}
+
+			function browser() {
+				var u = navigator.userAgent.toLowerCase();
+				return {
+					txt: u, // 浏览器版本信息
+					version: (u.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [])[1], // 版本号       
+					msie: /msie/.test(u) && !/opera/.test(u), // IE内核
+					mozilla: /mozilla/.test(u) && !/(compatible|webkit)/.test(u), // 火狐浏览器
+					safari: /safari/.test(u) && !/chrome/.test(u), //是否为safair
+					chrome: /chrome/.test(u), //是否为chrome
+					opera: /opera/.test(u), //是否为oprea
+					presto: u.indexOf('presto/') > -1, //opera内核
+					webKit: u.indexOf('applewebkit/') > -1, //苹果、谷歌内核
+					gecko: u.indexOf('gecko/') > -1 && u.indexOf('khtml') == -1, //火狐内核
+					mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
+					ios: !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/), //ios终端
+					android: u.indexOf('android') > -1, //android终端
+					iPhone: u.indexOf('iphone') > -1, //是否为iPhone
+					iPad: u.indexOf('ipad') > -1, //是否iPad
+					webApp: !!u.match(/applewebkit.*mobile.*/) && u.indexOf('safari/') == -1, //是否web应该程序，没有头部与底部
+					heibai: /heibai/.test(u),
+				};
+			}
+
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return decodeURI(r[2]);
+				return null;
+			}
+
+			function loadXMLDoc(callback) {
+				if (showImg && showImg.length > 0) {
+					$("#headPic").show();
+					$("title").html("大咖带你一秒变" + title);
+					if (localStorage.userId != userId) {
+						$("#makeAgain").html("我也要做");
+					}
+					document.getElementById("txt").src = showImg;
+					document.getElementById("txt").addEventListener("load", function(e) {
+						var txtHeight = $("#txt").height();
+						callback(txtHeight);
+					}, false);
+					$("#makeAgain").click(function(e) {
+						var moban = ["index.html?model=0", "index.html?model=1", "index.html?model=2", "index.html?model=3"];
+						window.location.href = moban[model];
+					});
+				};
+			}
+
+			function shareInHeibaiApp() {
+				var shareTitle = "终于拿到了与偶像的合影，欧耶~";
+				var shareDesc = "来黑白校园与偶像过情人节，这个情人节不再孤单";
+				if (/学霸/.test(title)) {
+					shareTitle = "终于拿到了与娘娘孙俪的合影，欧耶~";
+					shareDesc = "来黑白校园与偶像过情人节，这个情人节不再孤单";
+				} else if (/杨幂/.test(title)) {
+					shareTitle = "终于拿到了与男神刘恺威的合影，欧耶~";
+					shareDesc = "来黑白校园与偶像过情人节，这个情人节不再孤单";
+				} else if (/Baby/.test(title)) {
+					shareTitle = "终于拿到了与女神Angelababy的合影，欧耶~";
+					shareDesc = "来黑白校园与偶像过情人节，这个情人节不再孤单";
+				} else {
+					shareTitle = "终于拿到了与大黑牛李晨的合影，欧耶~";
+					shareDesc = "来黑白校园与偶像过情人节，这个情人节不再孤单";
+				}
+				alert(shareTitle + title);
+				var shareurl = window.location.href;
+				var shareNewSrc = (showImg && showImg.length) ? showImg : "http://daka.xiao6.me/20160214/images/add1.jpg";
+				window.location = "heibais://heibaixiaoyuan.com?type=pop&path=sharewebview&title=" + shareTitle + "&image=" + encodeURIComponent(shareNewSrc) + "&desc=" + shareDesc + "&shareurl=" + encodeURIComponent(shareurl);
+			}
+			window.onload = function() {
+				loadXMLDoc(function(height) {
+					var msg = "长按图片可将照片保存到相册";
+					if (b.heibai) {
+						msg = "分享成功后可在你的分享链接中保存图片";
+						document.getElementById("picYdpic").remove();
+						$(".picPic").click(function(e) {
+							shareInHeibaiApp();
+						});
+					} else {
+						document.getElementById("picYdpic").src = "images/resizeApi.png";
+					}
+					$(".OKtxt").html("<i><img src='images/picokicon.png'></i><span>" + msg + "</span>");
+					$("#picTxt").html(msg);
+					$("#picYd").css("height", height + "px");
+					setTimeout(function() {
+						$("#picYd").fadeIn();
+					}, 500);
+					setTimeout(function() {
+						$("#picYd").fadeOut()
+					}, 3000);
+				});
+				$("#shareButton").click(function(e) {
+					if (b.heibai) { /* 如果是黑白校园App */
+						shareInHeibaiApp();
+					} else {
+						$(".shareBg").fadeIn();
+						$(".sharepic").fadeIn();
+					}
+				});
+				$(".shareBg").click(function(e) {
+					$(".shareBg").fadeOut();
+					$(".sharepic").fadeOut();
+				});
+				if (b.android && b.heibai) {
+					$('.moreListHref').removeAttr('href');
+					$("#moreList").click(function(e) {
+						if (confirm("1.先分享链接给好友\r\n2.打开你分享的链接拍照参与活动~")) {
+							shareInHeibaiApp();
+						}
+					});
+				}
+			}
+		</script>
+	</body>
+
 </html>
