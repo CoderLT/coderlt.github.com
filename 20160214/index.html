@@ -600,7 +600,7 @@
 				var value = [
 					'translate(' + transform.translate.x + 'px, ' + transform.translate.y + 'px)',
 					'scale(' + transform.scale * (transform.flip ? -1 : 1) + ', ' + transform.scale + ')',
-					'rotate(' + transform.angle + 'deg)'
+					'rotate(' + transform.angle * (transform.flip ? -1 : 1) + 'deg)'
 				];
 				value = value.join(" ");
 				img.style.webkitTransform = value;
