@@ -1,737 +1,663 @@
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>大咖-带你一秒变大咖</title>
-    <link rel="stylesheet" href="css/css.css">
-	
-<style>
-  #loadRadius{left:50%;top:50%;margin-left:-25px;margin-top:-25px;position:fixed;z-index:10010}
-</style>
-</head>
-<body>
-<div class="loading" id="loading" style="opacity:0.9;filter:alpha(opacity=90);-moz-opacity:0.9;opacity:0.9;">
-<canvas id="loadRadius" style="position:fixed;z-index:11000;left:50%;top:50%;margin-left:-25px;margin-top:-25px;"></canvas><p>加载模板中，请稍后..</p></div>
-<canvas id="radiusBorder"></canvas>
-<div class="loadLogo" style="display:none"><img src="images/Logo1024C.png"></div>
-    <script>
-	//扇形
-	var showImg;
-CanvasRenderingContext2D.prototype.sector = function (x, y, radius, sDeg, eDeg) {// 初始保存
-this.save();// 位移到目标点
-this.translate(x, y);
-this.beginPath();// 画出圆弧
-this.arc(0,0,radius,sDeg, eDeg);// 再次保存以备旋转
-this.save();// 旋转至起始角度
-this.rotate(eDeg);// 移动到终点，准备连接终点与圆心
-this.moveTo(radius,0);// 连接到圆心
-this.lineTo(0,0);// 还原
-this.restore();// 旋转至起点角度
-this.rotate(sDeg);// 从圆心连接到起点
-this.lineTo(radius,0);
-this.closePath();// 还原到最初保存的状态
-this.restore();
-return this;
-}
-	  var loadwidth=document.getElementById("loading").offsetWidth; 
-	  loadwidth=loadwidth/2-25;
-	  var loadheight=document.getElementById("loading").offsetHeight;
-	  loadheight=loadheight/2-50;
-	  document.getElementById("loadRadius").style.left=loadwidth+"px";
-	  document.getElementById("loadRadius").style.top=loadheight+"px";	  
-       var ctxLoading = document.getElementById('loadRadius').getContext('2d');
-	   var ctxLoading2 = document.getElementById('loadRadius').getContext('2d'); 
-	   ctxLoading.fillStyle="#ccc";
-	   ctxLoading2.strokeStyle="#ccc";
-	   ctxLoading2.beginPath();// 画出圆弧
-	   ctxLoading2.arc(50,50,28,0,Math.PI/180*360)
-	   ctxLoading2.stroke();
-	  
-	   var deg = Math.PI/180;
-       ctxLoading.sector(50,50,25,0,Math.PI/180*30).fill();  
-    </script>
 
-<div class="indexMain">
- <div class="indexPic"><img src="" id="imgOrginal"></div>
- <form name="myForm" id="myForm" method="POST" enctype="multipart/form-data">
- <div class="indexButton">我要制作</div>
- <input type="file" id='Files' name='files' class='file'  accept='image/*' capture="camera">
- </form>
-</div>
-<div class="ydMain" style="display:none">
-  <div class="ydBg"></div>
-  <div class="ydLoadPic" style="display:none;color:#fff"><img src=""></div>
-  <div class="ydCon">
-    <p class="yd_1"><img src="images/ydd1.png"></p>
-    <p class="yd_2"><img src="images/ydd2.png"></p>
-    <p class="yd_3"><img src="images/ydd3.png"></p>
-  </div>
-  <div class="ydCon2" style="display:none;">
-    <p class="yd_4"><img src="images/ydd4.png"></p>
-    <p class="yd_2"><img src="images/ydd2.png"></p>
-  </div>
-  <div class="ydShow">
-    <div class="filpButton" style="z-index:10999"><img src="images/filpICON.png"><span>翻转</span></div>
-     <div class="makeBottom" style="z-index:10999;background:none;left:0;">
-   <ul>
-     <li style="opacity:0.3"><i><img src="images/backIcon.png"></i><p>返回</p></li>
-     <li><i><img src="images/lightIcon.png"></i><p>亮度</p></li>
-     <li><i><img src="images/colorIcon.png"></i><p>颜色</p></li>
-     <li style="opacity:0.3"><i><img src="images/okIcon.png"></i><p>完成</p></li>
-   </ul>
-   <div class="clear"></div>
-   </div>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>大咖-带你一秒变大咖</title>
+		<link rel="stylesheet" href="css/css.css">
 
-  </div>
-</div>
+		<style>
+			#loadRadius {
+				left: 50%;
+				top: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				position: fixed;
+				z-index: 10010
+			}
+		</style>
+	</head>
 
-<div class="makeMain">
-<div class="num" style="position:absolute;left:50%;top:50%;z-index:999;font-size:60px;width:100px;text-align:center;height:60px;line-height:60px;color:#ffffff;font-family:'Arial Black', Gadget, sans-serif;margin-left:-50px;margin-top:-70px;z-index:9999;display:none;">0</div>
- <div class="makeBorder" style="width:100%;height:100%;position:absolute;z-index:99;left:100%">
-  <div id="makeTopPic"><img src="" id="imgMask"></div> 
- </div> 
- <div id="yes"></div>
- <div id="photo"><img src="" id="photoImg"/></div>
- <div id="photo1" style="display:none;"><img src="" id="photoImg1"/></div>
- <canvas id="picCanvas" style="z-index:2;display:none"></canvas>
- <div class="makeBottom" style="z-index:999">
-   <ul>
-     <li class="back"><i><img src="images/backIcon.png"></i><p>返回</p></li>
-     <li id="light"><i><img src="images/lightIcon.png"></i><p>亮度</p></li>
-     <li id="color"><i><img src="images/colorIcon.png"></i><p>颜色</p></li>
-     <li class="makeButton"><i><img src="images/okIcon.png"></i><p>完成</p></li>
-   </ul>
-  <div class="clear"></div>
-  <div class="config" style="display:none">
-  <div id="configTxt">亮度</div>
-  <div class="configClose"><img src="images/close.png"></div>
-  <div class="adjust">
-    <a class="circle" id="circle" style="display:none;"></a>
-    <a class="circle" id="circle1" style="display:none;"></a>
-  </div>
-  </div>
-  </div>
-<div class="filpButton"><img src="images/filpICON.png"><span>翻转</span></div>
-</div>
-<canvas id="myCanvas"></canvas>
+	<body>
+		<div class="loadLogo" style="display:none"><img src="images/Logo1024C.png"></div>
+		<div class="loading" id="loading" style="opacity:0.9;filter:alpha(opacity=90);-moz-opacity:0.9;opacity:0.9;">
+			<canvas id="loadRadius" style="position:fixed;z-index:11000;left:50%;top:50%;margin-left:-25px;margin-top:-25px;"></canvas>
+			<p>加载模板中，请稍后..</p>
+		</div>
+		<canvas id="myCanvas"></canvas>
+		<script src="js/jquery.js"></script>
+		<script>
+			//扇形
+			CanvasRenderingContext2D.prototype.sector = function(x, y, radius, sDeg, eDeg) { // 初始保存
+				this.save(); // 位移到目标点
+				this.translate(x, y);
+				this.beginPath(); // 画出圆弧
+				this.arc(0, 0, radius, sDeg, eDeg); // 再次保存以备旋转
+				this.save(); // 旋转至起始角度
+				this.rotate(eDeg); // 移动到终点，准备连接终点与圆心
+				this.moveTo(radius, 0); // 连接到圆心
+				this.lineTo(0, 0); // 还原
+				this.restore(); // 旋转至起点角度
+				this.rotate(sDeg); // 从圆心连接到起点
+				this.lineTo(radius, 0);
+				this.closePath(); // 还原到最初保存的状态
+				this.restore();
+				return this;
+			}
+			var loadwidth = document.getElementById("loading").offsetWidth;
+			loadwidth = loadwidth / 2 - 25;
+			var loadheight = document.getElementById("loading").offsetHeight;
+			loadheight = loadheight / 2 - 50;
+			document.getElementById("loadRadius").style.left = loadwidth + "px";
+			document.getElementById("loadRadius").style.top = loadheight + "px";
+			var ctxLoading = document.getElementById('loadRadius').getContext('2d');
+			var ctxLoading2 = document.getElementById('loadRadius').getContext('2d');
+			ctxLoading.fillStyle = "#ccc";
+			var loadingProgress = 0;
 
-<div id="displaymain" style="position:fixed;left:0;top:0;z-index:20000;width:100%;height:100%;background:#fff;color:#333;display:none"><a id="mainbutton" style="margin-top:100px;margin-bottom:20px;display:block;">跳转</a><p id="mainTXT"></p></div>
-</body>
-<script>
- ctxLoading.sector(50,50,25,Math.PI/180*30,Math.PI/180*100).fill();  
-</script>
-<script src="js/jquery.js"></script>
-<script src="js/touch.js"></script>
-<script src="js/alloyimage-1.1.js"></script>
-<script>ctxLoading.sector(50,50,25,Math.PI/180*30,Math.PI/180*180).fill();</script>
-<script src="js/mobileFix.mini.js"></script>
-<script src="js/exif.js"></script>
-<script src="js/lrz.js"></script>
-<script src="js/sha1.js"></script>
-<script src="js/RGB2HSV.js"></script>
-<script src="js/BrightnessContrast.js"></script>
+			function setLoadingProgress(progress) {
+				ctxLoading.sector(50, 50, 25, Math.PI * 2 * loadingProgress, Math.PI * 2 * progress).fill();
+				loadingProgress = progress;
+				if (progress < 1 && progress >= 0) {
+					$(".loading").show();
+				} else {
+					$(".loading").hide();
+				}
+			}
+			setLoadingProgress(0.1);
+		</script>
+
+		<div class="indexMain">
+			<div class="indexPic"><img src="" id="imgOrginal"></div>
+			<form name="myForm" id="myForm" method="POST" enctype="multipart/form-data">
+				<div class="indexButton">我要制作</div>
+				<input type="file" id='Files' name='files' class='file' accept='image/*' capture="camera">
+			</form>
+		</div>
+
+		<div class="makeMain">
+			<div class="num" style="position:absolute;left:50%;top:50%;z-index:999;font-size:60px;width:100px;text-align:center;height:60px;line-height:60px;color:#ffffff;font-family:'Arial Black', Gadget, sans-serif;margin-left:-50px;margin-top:-70px;z-index:9999;display:none;">0</div>
+			<div id="hit" style="width: 100%; height: 100%; touch-action: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(88, 88, 88, 88); transform: translate3d(0px, 0px, 0px) scale(1, 1) rotate3d(0, 0, 0, 0deg); background: rgba(66, 66, 146,88);"
+			class="animate">
+				<div id="photo"><img src="" id="photoImg" style="position:absolute;left: 0px; width: 100%; touch-action: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" /></div>
+				<div class="makeBorder" id="hit" style="width:100%;height:100%;position:absolute;z-index:99;left:100%">
+					<div id="makeTopPic" style="left: 0px; width: 100%; height: 100%;"><img src="" id="imgMask" style="position:absolute;left: 0px; width: 100%; touch-action: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
+				</div>
+			</div>
+			<div id="photo1" style="display:none;"><img src="" id="photoImg1" /></div>
+			<canvas id="picCanvas" style="z-index:2;display:none"></canvas>
+			<div class="makeBottom" style="z-index:999">
+				<ul>
+					<li class="back"><i><img src="images/backIcon.png"></i>
+						<p>返回</p>
+					</li>
+					<li id="light"><i><img src="images/lightIcon.png"></i>
+						<p>亮度</p>
+					</li>
+					<li id="color"><i><img src="images/colorIcon.png"></i>
+						<p>颜色</p>
+					</li>
+					<li class="makeButton"><i><img src="images/okIcon.png"></i>
+						<p>完成</p>
+					</li>
+				</ul>
+				<div class="clear"></div>
+				<div class="config" style="display:none">
+					<div id="configTxt">亮度</div>
+					<div class="configClose"><img src="images/close.png"></div>
+					<div class="adjust">
+						<div class="circle" id="circle" style="display:none; touch-action: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
+						<div class="circle" id="circle1" style="display:none; touch-action: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
+					</div>
+				</div>
+			</div>
+			<div class="filpButton"><img src="images/filpICON.png"><span>翻转</span></div>
+		</div>
+		<script>
+			setLoadingProgress(0.3);
+		</script>
+		<script src="js/alloyimage-1.1.js"></script>
+		<script>
+			setLoadingProgress(0.5);
+		</script>
+		<script src="js/mobileFix.mini.js"></script>
+		<script src="js/exif.js"></script>
+		<script src="js/lrz.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/hammer.js"></script>
+
+		<script type="text/javascript">
+			try {
+				var userId = localStorage.userId;
+				var showImg;
+
+				function GetQueryString(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if (r != null) return unescape(r[2]);
+					return null;
+				}
+				var model = parseInt(GetQueryString("model"));
+				if (!(model >= 0 && model <= 3)) {
+					model = 0;
+				}
+				var title = "",
+					originImageURL = "",
+					psImageURL = "",
+					awayLeft = 0.42,
+					awayRight = 0.80,
+					awayTop = 0.4,
+					_S = 0 /*饱和度[-50,50]*/ ,
+					_C = 0 /*对比度[-50,50]*/ ,
+					_B = 0 /*亮度[-50, 50]*/ ,
+					_CUR = 0 /*曲线[-128, 128]*/ ,
+					_H = 0 /*色相[-180, 180]*/ ,
+					_G = 0 /*高斯模糊*/ ,
+					_SHA = 0 /*锐化*/ ,
+					_NOISE = 0,
+					_isVariegatedSingleColor = 1 /*杂色*/ ,
+					_RGBR = 1,
+					_RGBG = 1,
+					_RGBB = 1 /*RGB[0,2]*/ ;
+				// $.getJSON("models.json", function(data){
+				data = JSON.parse("{\"content\":[{\"hue\":\"0\",\"rgbR\":\"1.07074\",\"title\":\"教主与Baby\",\"brightness\":\"0\",\"contrast\":\"1\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.18328\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.9163987\",\"toneCurve\":\"0\",\"variegated\":\"0.04501608\"},{\"hue\":\"-1.446945\",\"rgbR\":\"1.102894\",\"title\":\"凯威与杨幂\",\"brightness\":\"-0.05948553\",\"contrast\":\"0.8569132\",\"gaussianBlur\":\"0.4630225\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.118167\",\"rgbG\":\"1.041801\",\"sharpen\":\"0\",\"staturation\":\"0.8705788\",\"toneCurve\":\"0\",\"variegated\":\"0.10659164\"},{\"hue\":\"0\",\"rgbR\":\"1.22508\",\"title\":\"娘娘与学霸\",\"brightness\":\"-0.06953376\",\"contrast\":\"1.118971\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.064309\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.7692926\",\"toneCurve\":\"24.10611\",\"variegated\":\"0.05080386\"},{\"hue\":\"3.762058\",\"rgbR\":\"1.202572\",\"title\":\"范爷和李晨\",\"brightness\":\"0.04340836\",\"contrast\":\"1.086817\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.266881\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.5980707\",\"toneCurve\":\"25.32154\",\"variegated\":\"0.03922829\"}]}");
+				modelData = data["content"][model];
+				title = modelData.title;
+				if (/学霸/.test(title)) {
+					awayLeft = 0.3;
+					awayRight = 0.70;
+					awayTop = 0.0;
+				} else if (/杨幂/.test(title)) {
+					awayLeft = 0.3;
+					awayRight = 0.6;
+					awayTop = 0.05;
+				} else if (/Baby/.test(title)) {
+					awayLeft = 0.42;
+					awayRight = 0.80;
+					awayTop = 0.4;
+				} else {
+					awayLeft = 0;
+					awayRight = 0.80;
+					awayTop = 0.0;
+				}
+				_S = 100 * (parseFloat(modelData.staturation)); /*饱和度[100,100]*/
+				_C = 50 * (parseFloat(modelData.contrast) - 1); /*对比度[-50,50]*/
+				_B = 50 * (parseFloat(modelData.brightness)); /*亮度[-50, 50]*/
+				_CUR = parseFloat(modelData.toneCurve); /*曲线[-128-128]*/
+				_H = parseFloat(modelData.hue); /*色相*/
+				_G = parseFloat(modelData.gaussianBlur); /*高斯模糊*/
+				_SHA = parseFloat(modelData.sharpen); /*锐化*/
+				_NOISE = parseFloat(modelData.variegated); /*杂色*/
+				_isVariegatedSingleColor = parseInt(modelData.isVariegatedSingleColor); /*杂色*/
+				_RGBR = parseFloat(modelData.rgbR);
+				_RGBG = parseFloat(modelData.rgbG);
+				_RGBB = parseFloat(modelData.rgbB); /*RGB[0,2]*/
+				$("title").html(title);
+				document.getElementById("imgOrginal").src = "images/" + (model) + ".jpg";
+				document.getElementById("imgMask").src = "images/" + (parseInt(model) + 4) + ".png";
+				document.getElementById("imgOrginal").onload = function() {
+					var IndexPicHeight = $(".indexPic").height();
+					$(".indexPic").css("margin-top", -IndexPicHeight / 2 + "px");
+				}
+				setLoadingProgress(0.7);
+
+				function browser() {
+					var u = navigator.userAgent.toLowerCase();
+					var app = navigator.appVersion.toLowerCase();
+					return {
+						txt: u, // 浏览器版本信息
+						version: (u.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [])[1], // 版本号       
+						msie: /msie/.test(u) && !/opera/.test(u), // IE内核
+						mozilla: /mozilla/.test(u) && !/(compatible|webkit)/.test(u), // 火狐浏览器
+						safari: /safari/.test(u) && !/chrome/.test(u), //是否为safair
+						chrome: /chrome/.test(u), //是否为chrome
+						opera: /opera/.test(u), //是否为oprea
+						presto: u.indexOf('presto/') > -1, //opera内核
+						webKit: u.indexOf('applewebkit/') > -1, //苹果、谷歌内核
+						gecko: u.indexOf('gecko/') > -1 && u.indexOf('khtml') == -1, //火狐内核
+						mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
+						ios: !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/), //ios终端
+						android: u.indexOf('android') > -1, //android终端
+						iPhone: u.indexOf('iphone') > -1, //是否为iPhone
+						iPad: u.indexOf('ipad') > -1, //是否iPad
+						webApp: !!u.match(/applewebkit.*mobile.*/) && u.indexOf('safari/') == -1, //是否web应该程序，没有头部与底部
+						wechat: /micromessenger/.test(u),
+					};
+				}
+				var b = browser();
+				window.onload = function() {
+					setLoadingProgress(1);
+					var IndexPicHeight = $(".indexPic").height();
+					$(".indexPic").css("margin-top", -IndexPicHeight / 2 + "px")
+					$("#onloadBg").remove();
+					var offx, offy, offx1, offx2, colorNum = 0,
+						lightNum = 100,
+						brightness = 1,
+						brightnessLast = 0
+					var photoLoading;
+					var totalAngle = 0;
+					var currentScale = 1;
+					var configColor;
+					var circleLeft, dd, evScale
+					var initialScale = 1;
+					var picWidth, picHeight;
+					var currentScaleLast = 1;
+					var angle = 0;
+					var c = new Array();
+					var picCanvas = document.getElementById("picCanvas");
+					var mobanWidth
+					var mobanHeight
+					document.getElementById('Files').onchange = function(e) {
+						var src = window.URL.createObjectURL(this.files[0]);
+						mobanWidth = $("#imgMask").width();
+						mobanHeight = $("#imgMask").height();
+						$(".indexMain").animate({
+							left: "-100%"
+						}, 500);
+						$(".makeMain").animate({
+							left: "0%"
+						}, 500);
+						$(".makeBottom").animate({
+							left: "0%"
+						}, 500);
+						$(".makeBorder").animate({
+							left: "0%"
+						}, 500);
+						$(".loading").show().css("background", "#000");
+						$("#loadRadius").hide();
+						$(".loadLogo").show();
+						$(".loading p").html("照片处理中..").css({
+							"position": "relative",
+							"z-index": "11000"
+						});
+						lrz(this.files[0], {
+							width: 375
+						}, function(results) {
+							document.getElementById("photoImg").src = results.base64;
+							var target = document.getElementById("photoImg");
+							var target1 = document.getElementById("photoImg1");
+							target.onload = function() {
+								psLib(this).act("setNoise", _NOISE, _isVariegatedSingleColor).act("gaussBlur", _G).act("sharp", _SHA).act("setRGB", _RGBR, _RGBG, _RGBB).act("curve", [0, 128 - _CUR, 255], [0, 128 + _CUR, 255]).act("brightness", _B, _C).act("setHSI", _H, _S, 0, false).replace(this);
+								document.getElementById("photoImg1").src = this.src;
+								this.onload = function() {
+									$(".loading").hide();
+									$(".loadLogo").hide();
+									if (!(userId && userId != "undefined")) {
+										userId = "DK" + new Date().getTime();
+										localStorage.userId = userId;
+									};
+									picWidth = $("#photoImg").width();
+									picHeight = $("#photoImg").height();
+									bigPic(awayLeft, awayRight, awayTop, mobanWidth, mobanHeight);
+									$(".back").click(function(e) {
+										history.go(0);
+									});
+									$(".filpButton").click(onFlip);
+									var picTranseObj2;
+									var mCircle = new Hammer.Manager(document.querySelector("#circle"));
+									var mCircle1 = new Hammer.Manager(document.querySelector("#circle1"));
+									mCircle.add(new Hammer.Pan({
+										threshold: 0,
+										pointers: 0
+									}));
+									mCircle1.add(new Hammer.Pan({
+										threshold: 0,
+										pointers: 0
+									}));
+									var circleLeft = -1,
+										circleLeft1 = -1,
+										adjustHue = 0,
+										adjustBrightness = 0;
+									mCircle.on("panstart panmove panend pancancle", function(ev) {
+										var width = $(".adjust").width();
+										if (ev.type == "panstart") {
+											circleLeft = (circleLeft < 0 ? width / 2 : circleLeft);
+										}
+										var left = (circleLeft + ev.deltaX);
+										left = left < 0 ? 0 : (left > width ? width : left);
+										document.getElementById("circle").style.left = left + "px";
+										$(".num").show().html(Math.round((left - width / 2) / (width / 2) * 100));
+										adjustHue = (left - width / 2) / (width / 2) * 40;
+										if (ev.type != "panmove" && ev.type != "panstart") {
+											circleLeft = left;
+											$(".num").hide();
+											picTranseObj2 = AlloyImage(target1);
+											var grayPic = picTranseObj2.clone().act("curve", [0, 128 - adjustBrightness, 255], [0, 128 + adjustBrightness, 255]).act("setHSI", adjustHue, 100, 0, false);
+											grayPic.replace(target);
+										}
+										//										console.log(ev.type + ": " + adjustHue);
+									});
+									mCircle1.on("panstart panmove panend pancancle", function(ev) {
+										var width = $(".adjust").width();
+										if (ev.type == "panstart") {
+											circleLeft1 = (circleLeft1 < 0 ? width / 2 : circleLeft1);
+										}
+										var left = (circleLeft1 + ev.deltaX);
+										left = left < 0 ? 0 : (left > width ? width : left);
+										document.getElementById("circle1").style.left = left + "px";
+										$(".num").show().html(Math.round((left - width / 2) / (width / 2) * 100));
+										adjustBrightness = (left - width / 2) / (width / 2) * 64;
+										if (ev.type != "panmove" && ev.type != "panstart") {
+											circleLeft1 = left;
+											$(".num").hide();
+											picTranseObj2 = AlloyImage(target1);
+											var grayPic = picTranseObj2.clone().act("curve", [0, 128 - adjustBrightness, 255], [0, 128 + adjustBrightness, 255]).act("setHSI", adjustHue, 100, 0, false);
+											grayPic.replace(target);
+										}
+										//										console.log(ev.type + ": " + adjustBrightness);
+									});
+									$("#light").click(function(e) {
+										$(".config").show();
+										$("#circle1").show();
+										$("#configTxt").html("亮度");
+										$("#circle").hide();
+										$(this).css("background", "#222");
+										$("#color").css("background", "#333");
+									});
+									$("#color").click(function(e) {
+										$(".config").show();
+										$("#circle").show();
+										$("#configTxt").html("颜色");
+										$("#circle1").hide();
+										$(this).css("background", "#222");
+										$("#light").css("background", "#333");
+									});
+									$(".configClose").click(function(e) {
+										$(".config").hide();
+										$("#light").css("background", "#333");
+										$("#color").css("background", "#333");
+									});
+								}
+							}
+						})
+					}
+
+					function bigPic(a, b, c, allW, allH) {
+						dd = 1 / (b - a);
+						allW = allW * a * dd;
+						allH = allH * c * dd;
+						$(".makeBorder").css({
+							"marginLeft": "-" + (allW) + "px",
+							"marginTop": "-" + (allH) + "px",
+							"-webkit-transform": "scale(" + dd + "," + dd + ")",
+							"-webkit-transform-origin": "0% 0%"
+						})
+					}
+					$(".makeButton").click(function() {
+						$(".loading").show();
+						$(".loadLogo").show();
+						$(".loading p").html("图片生成中..");
+						var target = document.getElementById("photoImg");
+						var img = new Image();
+						img.src = document.getElementById('imgMask').src;
+						document.getElementById('myCanvas').width = mobanWidth;
+						document.getElementById('myCanvas').height = mobanHeight;
+						picCanvas.width = picWidth;
+						picCanvas.height = picHeight;
+						var picCxt = picCanvas.getContext("2d");
+						if (transform.flip == 1) {
+							picCxt.translate(picWidth, 0);
+							picCxt.scale(-1, 1);
+						}
+						picCxt.drawImage(target, 0, 0, picWidth, picHeight);
+						var ctx = document.getElementById('myCanvas').getContext('2d');
+						ctx.save();
+						var turnLeft = transform.translate.x / dd;
+						var turnTop = transform.translate.y / dd;
+						var canvasAwayLeft = awayLeft * mobanWidth;
+						var canvasAwayTop = awayTop * mobanHeight;
+						var scaleLeft = (picWidth * transform.scale - picWidth) / (2 * dd)
+						var scaleTop = (picHeight * transform.scale - picHeight) / (2 * dd)
+						ctx.translate(canvasAwayLeft + turnLeft - scaleLeft, canvasAwayTop + turnTop - scaleTop)
+						ctx.scale(transform.scale, transform.scale)
+						ctx.translate(picWidth / dd * 0.5, picHeight / dd * 0.5)
+						ctx.rotate(transform.angle * Math.PI / 180)
+						ctx.translate(-picWidth / dd * 0.5, -picHeight / dd * 0.5)
+						ctx.drawImage(picCanvas, 0, 0, picWidth / dd, picHeight / dd)
+						ctx.restore()
+						ctx.drawImage(img, 0, 0, mobanWidth, mobanHeight)
+						showImg = document.getElementById('myCanvas').toDataURL("image/jpeg");
+						document.write("<img src='" + showImg + "' alt='from canvas' class='dataImg'/>")
+							// dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+							//					showImg = showImg.split(',')[1];
+							//					showImg = window.atob(showImg);
+							//					var array8Int = new Uint8Array(showImg.length);
+							//					for (var i = 0; i < showImg.length; i++) {
+							//						array8Int[i] = showImg.charCodeAt(i);
+							//					};
+							//					// canvas.toDataURL 返回的默认格式就是 image/png
+							//					var finishImage = getBlobImage(array8Int);
+							//					loadXMLDoc(finishImage);
+					})
+				}
+
+				function loadXMLDoc(f) {
+					var now = new Date().getTime() - new Date("2001-01-01").getTime();
+					var appKey = hex_sha1("A6995678227283" + "UZ" + "1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0" + "UZ" + now);
+					Key = appKey + "." + now;
+					var xmlhttp;
+					if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+						xmlhttp = new XMLHttpRequest();
+					} else { // code for IE6, IE5
+						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					xmlhttp.onreadystatechange = function() {
+						var response = xmlhttp.responseText
+						if (response) {
+							response = JSON.parse(response);
+							if (response && response.url) {
+								window.location.href = "default.html?pic=" + response.url.replace("http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/", "") + "&model=" + model + "&title=" + title + "&userId=" + userId;
+							};
+						};
+					}
+					xmlhttp.open("POST", "http://d.apicloud.com/mcm/api/file", true);
+					xmlhttp.setRequestHeader("X-APICloud-AppKey", Key);
+					xmlhttp.setRequestHeader("X-APICloud-AppId", "A6995678227283");
+					var formData = needsFormDataShim ? new FormDataShim() : new FormData();
+					formData.append('file', f, title + new Date().getTime());
+					xmlhttp.send(formData);
+				}
+
+				function getBlobImage(array) {
+					var jpeg;
+					try {
+						var jpeg = new Blob([array], {
+							type: "image/jpeg"
+						});
+					} catch (e) {
+						// TypeError old chrome and FF
+						window.BlobBuilder = window.BlobBuilder ||
+							window.WebKitBlobBuilder ||
+							window.MozBlobBuilder ||
+							window.MSBlobBuilder;
+						if (e.name == 'TypeError' && window.BlobBuilder) {
+							var bb = new BlobBuilder();
+							bb.append(array.buffer);
+							jpeg = bb.getBlob("image/jpeg");
+						} else if (e.name == "InvalidStateError") {
+							// InvalidStateError (tested on FF13 WinXP)
+							jpeg = new Blob([array.buffer], {
+								type: "image/jpeg"
+							});
+						} else {
+							alert(e.name + ": " + e.message);
+						}
+					}
+					return jpeg;
+				}
+				var
+				// Android native browser uploads blobs as 0 bytes, so we need a test for that
+					needsFormDataShim = (function() {
+						var bCheck = ~navigator.userAgent.indexOf('Android') && ~navigator.vendor.indexOf('Google') && !~navigator.userAgent.indexOf('Chrome');
+						return bCheck && navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
+					})(),
+					// Test for constructing of blobs using new Blob()
+					blobConstruct = !!(function() {
+						try {
+							return new Blob();
+						} catch (e) {}
+					})(),
+					// Fallback to BlobBuilder (deprecated)
+					XBlob = blobConstruct ? window.Blob : function(parts, opts) {
+						var bb = new(window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
+						parts.forEach(function(p) {
+							bb.append(p);
+						});
+						return bb.getBlob(opts ? opts.type : undefined);
+					};
+
+				function FormDataShim() {
+					var
+					// Store a reference to this
+						o = this,
+						// Data to be sent
+						parts = [],
+						// Boundary parameter for separating the multipart values
+						boundary = Array(21).join('-') + (+new Date() * (1e16 * Math.random())).toString(36),
+						// Store the current XHR send method so we can safely override it
+						oldSend = XMLHttpRequest.prototype.send;
+					this.append = function(name, value, filename) {
+						parts.push('--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"');
+						if (value instanceof Blob) {
+							parts.push('; filename="' + (filename || 'blob') + '"\r\nContent-Type: ' + value.type + '\r\n\r\n');
+							parts.push(value);
+						} else {
+							parts.push('\r\n\r\n' + value);
+						}
+						parts.push('\r\n');
+					};
+					// Override XHR send()
+					XMLHttpRequest.prototype.send = function(val) {
+						var fr,
+							data,
+							oXHR = this;
+						if (val === o) {
+							// Append the final boundary string
+							parts.push('--' + boundary + '--');
+							// Create the blob
+							data = new XBlob(parts);
+							// Set up and read the blob into an array to be sent
+							fr = new FileReader();
+							fr.onload = function() {
+								oldSend.call(oXHR, fr.result);
+							};
+							fr.onerror = function(err) {
+								throw err;
+							};
+							fr.readAsArrayBuffer(data);
+							// Set the multipart content type and boudary
+							this.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+							XMLHttpRequest.prototype.send = oldSend;
+						} else {
+							oldSend.call(this, val);
+						}
+					};
+				}
+			} catch (e) {
+				alert(e.name + ": " + e.message);
+			}
+		</script>
+
+		<script>
+			var el = document.querySelector("#hit");
+			var img = document.querySelector("#photoImg");
+			var transform;
+			var mc = new Hammer.Manager(el);
+			mc.add(new Hammer.Pan({
+				threshold: 0,
+				pointers: 0
+			}));
+			mc.add(new Hammer.Rotate({
+				threshold: 0
+			})).recognizeWith(mc.get('pan'));
+			mc.add(new Hammer.Pinch({
+				threshold: 0
+			})).recognizeWith([mc.get('pan'), mc.get('rotate')]);
+			mc.on("panstart panmove", onPan);
+			mc.on("rotatestart rotatemove", onRotate);
+			mc.on("pinchstart pinchmove", onPinch);
+			var START_X = 0;
+			var START_Y = 0;
+			resetElement();
+
+			function resetElement() {
+				el.className = 'animate';
+				START_X = Math.round((el.width - img.offsetWidth) / 2) || 0;
+				START_Y = Math.round((el.width - img.offsetHeight) / 2) || 0;
+				transform = {
+					translate: {
+						x: START_X,
+						y: START_Y
+					},
+					flip: 0,
+					scale: 1,
+					angle: 0,
+				};
+				requestElementUpdate();
+			}
+
+			function requestElementUpdate() {
+				var value = [
+					'translate(' + transform.translate.x + 'px, ' + transform.translate.y + 'px)',
+					'scale(' + transform.scale * (transform.flip ? -1 : 1) + ', ' + transform.scale + ')',
+					'rotate(' + transform.angle + 'deg)'
+				];
+				value = value.join(" ");
+				img.style.webkitTransform = value;
+				img.style.mozTransform = value;
+				img.style.transform = value;
+			}
+
+			function onPan(ev) {
+				el.className = '';
+				if (ev.type == 'panstart') {
+					START_X = transform.translate.x - ev.deltaX;
+					START_Y = transform.translate.y - ev.deltaY;
+				}
+				transform.translate = {
+					x: START_X + ev.deltaX,
+					y: START_Y + ev.deltaY
+				};
+				requestElementUpdate();
+				//		logEvent(ev.type + ": " + START_X + " + " + ev.deltaX + ", " + START_Y + " + " + ev.deltaY);
+			}
+			var initScale = 1;
+
+			function onPinch(ev) {
+				if (ev.type == 'pinchstart') {
+					initScale = (transform.scale / ev.scale) || 1;
+				}
+				el.className = '';
+				transform.scale = initScale * ev.scale;
+				requestElementUpdate();
+				//		logEvent(ev.type + ": " + initScale + " * " + ev.scale);
+			}
+			var initAngle = 0;
+
+			function onRotate(ev) {
+				if (ev.type == 'rotatestart') {
+					initAngle = (transform.angle - ev.rotation) || 0;
+				}
+				el.className = '';
+				transform.rz = 1;
+				transform.angle = initAngle + ev.rotation;
+				requestElementUpdate();
+				//		logEvent(ev.type + ": " + initAngle + " + " + ev.rotation);
+			}
+
+			function onFlip() {
+				transform.flip = !transform.flip;
+				requestElementUpdate();
+				logEvent("flip " + transform.flip);
+			}
+
+			function logEvent(str) {
+				//		console.log(str);
+			}
+		</script>
+		<script>
+			setLoadingProgress(0.8);
+		</script>
+	</body>
+
 </html>
-<script type="text/javascript">
-try {
-var userId = localStorage.userId;
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-}	
-var model = parseInt(GetQueryString("model"));
-if (!(model >= 0 && model <= 3)) {
-	model = 0;
-}
-var title="",originImageURL="",psImageURL="",awayLeft=0.42,awayRight=0.80,awayTop=0.4,_S=0/*饱和度[-50,50]*/,_C=0/*对比度[-50,50]*/,_B=0/*亮度[-50, 50]*/,_CUR=0/*曲线[-128-128]*/,_H=0/*色相*/,_G=0/*高斯模糊*/,_SHA=0/*锐化*/,_NOISE=0, _isVariegatedSingleColor=1/*杂色*/,_RGBR=1,_RGBG=1,_RGBB=1/*RGB[0,2]*/;
-// $.getJSON("models.json", function(data){
-	data = JSON.parse("{\"content\":[{\"hue\":\"0\",\"rgbR\":\"1.07074\",\"title\":\"教主与Baby\",\"brightness\":\"0\",\"contrast\":\"1\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.18328\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.9163987\",\"toneCurve\":\"0\",\"variegated\":\"0.04501608\"},{\"hue\":\"-1.446945\",\"rgbR\":\"1.102894\",\"title\":\"凯威与杨幂\",\"brightness\":\"-0.05948553\",\"contrast\":\"0.8569132\",\"gaussianBlur\":\"0.4630225\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.118167\",\"rgbG\":\"1.041801\",\"sharpen\":\"0\",\"staturation\":\"0.8705788\",\"toneCurve\":\"0\",\"variegated\":\"0.10659164\"},{\"hue\":\"0\",\"rgbR\":\"1.22508\",\"title\":\"娘娘与学霸\",\"brightness\":\"-0.06953376\",\"contrast\":\"1.118971\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.064309\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.7692926\",\"toneCurve\":\"24.10611\",\"variegated\":\"0.05080386\"},{\"hue\":\"3.762058\",\"rgbR\":\"1.202572\",\"title\":\"范爷和李晨\",\"brightness\":\"0.04340836\",\"contrast\":\"1.086817\",\"gaussianBlur\":\"0\",\"isVariegatedSingleColor\":\"0\",\"rgbB\":\"1.266881\",\"rgbG\":\"1\",\"sharpen\":\"0\",\"staturation\":\"0.5980707\",\"toneCurve\":\"25.32154\",\"variegated\":\"0.03922829\"}]}");
-	modelData = data["content"][model];
-	title=modelData.title;
-	if (/学霸/.test(title)) {
-		awayLeft=0.3;
-		awayRight=0.70;
-		awayTop=0.0;
-	}
-	else if (/杨幂/.test(title)) {
-		awayLeft=0.3;
-		awayRight=0.6;
-		awayTop=0.05;
-	}
-	else if (/Baby/.test(title)) {
-		awayLeft=0.42;
-		awayRight=0.80;
-		awayTop=0.4;
-	}
-	else {
-		awayLeft=0;
-		awayRight=0.80;
-		awayTop=0.0;
-	}
-	_S=100*(parseFloat(modelData.staturation));/*饱和度[100,100]*/
-	_C=50*(parseFloat(modelData.contrast)-1);/*对比度[-50,50]*/
-	_B=50*(parseFloat(modelData.brightness));/*亮度[-50, 50]*/
-	_CUR=parseFloat(modelData.toneCurve);/*曲线[-128-128]*/
-	_H=parseFloat(modelData.hue);/*色相*/
-	_G=parseFloat(modelData.gaussianBlur);/*高斯模糊*/
-	_SHA=parseFloat(modelData.sharpen);/*锐化*/
-	_NOISE=parseFloat(modelData.variegated);/*杂色*/
-	_isVariegatedSingleColor=parseInt(modelData.isVariegatedSingleColor);/*杂色*/
-	_RGBR = parseFloat(modelData.rgbR);
-	_RGBG = parseFloat(modelData.rgbG);
-	_RGBB = parseFloat(modelData.rgbB);/*RGB[0,2]*/
-	$("title").html(title);
-	document.getElementById("imgOrginal").src="images/"+(model)+".jpg";
-	document.getElementById("imgMask").src="images/"+(parseInt(model)+4)+".png";
-
-    document.getElementById("imgOrginal").onload=function(){
-		var IndexPicHeight=$(".indexPic").height();
-		$(".indexPic").css("margin-top",-IndexPicHeight/2+"px");
-	}
-
- ctxLoading.sector(50,50,25,Math.PI/180*50,Math.PI/180*260).fill(); 
-function browser() {
-	    var u = navigator.userAgent.toLowerCase();
-	    var app = navigator.appVersion.toLowerCase();
-	    return {
-	        txt: u, // 浏览器版本信息
-	        version: (u.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [])[1], // 版本号       
-	        msie: /msie/.test(u) && !/opera/.test(u), // IE内核
-	        mozilla: /mozilla/.test(u) && !/(compatible|webkit)/.test(u), // 火狐浏览器
-	        safari: /safari/.test(u) && !/chrome/.test(u), //是否为safair
-	        chrome: /chrome/.test(u), //是否为chrome
-	        opera: /opera/.test(u), //是否为oprea
-	        presto: u.indexOf('presto/') > -1, //opera内核
-	        webKit: u.indexOf('applewebkit/') > -1, //苹果、谷歌内核
-	        gecko: u.indexOf('gecko/') > -1 && u.indexOf('khtml') == -1, //火狐内核
-	        mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
-	        ios: !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/), //ios终端
-	        android: u.indexOf('android') > -1, //android终端
-	        iPhone: u.indexOf('iphone') > -1, //是否为iPhone
-	        iPad: u.indexOf('ipad') > -1, //是否iPad
-	        webApp: !!u.match(/applewebkit.*mobile.*/) && u.indexOf('safari/') == -1 //是否web应该程序，没有头部与底部
-	    };
-	}
-	 var u = navigator.userAgent.toLowerCase();
-	 var androidMicromessenger
-	var b=browser();
-	if(b.android){
-		if(/micromessenger/.test(u)){
-          androidMicromessenger=1; 
-        }
-		else {androidMicromessenger=0}
-		}
-		else{androidMicromessenger=0}
-	
-    window.onload=function(){
-		var IndexPicHeight=$(".indexPic").height();
-		$(".indexPic").css("margin-top",-IndexPicHeight/2+"px")
-		
-		ctxLoading.sector(50,50,25,Math.PI/180*30,Math.PI/180*360).fill();
-		$(".loading").hide();	
- $("#onloadBg").remove();
-var offx,offy,offx1,offx2,colorNum=0,lightNum=100,brightness=1,brightnessLast=0
-var isFilp=0,locationSrc,ccc,photoLoading;
-var totalAngle=0;
-var currentScale=1;
- var configColor;
-var dx=0,dy=0,bx=0,by=0,cx=0,cy=0;
-var circleLeft,dd,evScale
-var initialScale = 1;
-var picWidth,picHeight;
-
-var currentScaleLast=1;
-var angle=0;
-var c=new Array();
-var picCanvas=document.getElementById("picCanvas");
-	var mobanWidth
-	var mobanHeight
-	
-document.getElementById('Files').onchange = function (e) {
-	/*$(".ydMain").show()
-	*/
-var src = window.URL.createObjectURL(this.files[0]);
-   
- /*  document.getElementById("ydPic").src=src;*/
-
-      mobanWidth=$("#imgMask").width();
-     mobanHeight=$("#imgMask").height();
-  $(".indexMain").animate({left:"-100%"},500);
-  $(".makeMain").animate({left:"0%"},500);
-  $(".makeBottom").animate({left:"0%"},500);
-   $(".makeBorder").animate({left:"0%"},500);
-
-  $(".loading").show().css("background","#000");
-  $("#loadRadius").hide();
-  $("#radiusBorder").hide();
-  $(".loadLogo").show();
-  $(".loading p").html("照片处理中..").css({"position":"relative","z-index":"11000"});
-   lrz(this.files[0], {
-   	width: 375
-   }, function (results) {
-	  document.getElementById("photoImg").src=results.base64;
-	
-	  locationSrc=results.base64; 
-	  var target = document.getElementById("photoImg");
-	  var target1=document.getElementById("photoImg1");
-	  target.style.position="absolute";
-	   target.onload = function ()
-        {
-		psLib(this).act("setNoise",_NOISE,_isVariegatedSingleColor).act("gaussBlur",_G).act("sharp",_SHA).act("setRGB",_RGBR,_RGBG,_RGBB).act("curve",[0,128-_CUR,255], [0,128+_CUR,255]).act("brightness",_B,_C).act("setHSI",_H,_S,0,false).replace(this);
-		document.getElementById("photoImg1").src=this.src;
-		
-		this.onload = function() {  
-			$(".loading").hide();
-		    $(".loadLogo").hide();
-	  		if (!(userId && userId!="undefined")) {
-	  			userId = "DK" + new Date().getTime();
-	  			localStorage.userId = userId;
-
-				$(".ydMain").show();
-				$(".ydCon p.yd_2").click(function() {
-					$(".ydCon").hide();
-					$(".ydCon2").show();
-					$(".ydLoadPic").show();
-					$(".ydLoadPic").height($(".ydLoadPic").width());
-					$(".ydLoadPic img").attr("src",document.getElementById("photoImg1").src);
-				});
-				$(".ydCon2 p.yd_2").click(function(){
-					$(".ydMain").hide();
-				});
-	  		};
-
-	var allWidth=$(".makeBorder").width();
-	var allHeight=$(".makeBorder").height();
-	      picWidth=$("#photoImg").width();
-	  $("#yes").css("width",picWidth+"px")
-	   picHeight=$("#photoImg").height();
-	  $("#yes").css("height",picHeight+"px")
-	bigPic(awayLeft,awayRight,awayTop,mobanWidth,mobanHeight,false);
-	target.style.webkitTransition = 'all ease 0.05s';
-	$("#photoImg").css("-webkit-transform","scale(-1,1)")
-    var yes=document.getElementById("yes"); 
-	  picCanvas.width=picWidth;
-	  picCanvas.height=picHeight;
-	 var picCxt=picCanvas.getContext("2d");
-	  picCxt.translate(picWidth,0);
-	  picCxt.scale(-1,1);
-	  picCxt.drawImage(target,0,0,picWidth,picHeight);
-	  var imgData=picCxt.getImageData(0,0,picWidth,picHeight);
-	  var cc=imgData.data;	  
-	  for(var i=0;i<cc.length;++i){
-		  c[i]=cc[i];
-		  }
-	$(".back").click(function(e) {
-    history.go(0);
-    });	  
-	$(".filpButton").click(function(){
-		if(isFilp==0){
-	 picCxt.translate(picWidth,0);
-	  picCxt.scale(-1,1);
-	  picCxt.drawImage(target,0,0,picWidth,picHeight);
-		target.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale('+currentScale+','+currentScale+')';
-		isFilp=1;
-		
-	 
-		}
-		else if(isFilp==1){  
-	  target.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale(-'+currentScale+','+currentScale+')';
-		isFilp=0;	
-			}		
-		})
-	var picTranseObj2 
-touch.on('#yes', 'touchstart', function(ev){
-  ev.preventDefault();
-});
-
-touch.on('#yes', 'rotate drag', function(ev){
-	if(evScale==undefined)evScale=currentScale;
-	(ev.scale==undefined)?ev.scale=evScale:ev.scale=ev.scale;
-	if(ev.rotation==undefined)ev.rotation=0;	
-	currentScale = ev.scale - 1;
-	currentScale = initialScale + currentScale;
-	currentScale = currentScale > 3 ? 3 : currentScale;
-	currentScale = currentScale < 0.3 ? 0.3 : currentScale;
-	totalAngle = angle + ev.rotation;
-	 dx = dx || 0;
-	 dy = dy || 0;
-	 offx = dx + ev.x + "px";
-	 offy = dy + ev.y + "px";
-	 this.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale('+currentScale+')';
-	 this.style.top=offy;
-	 this.style.left=offx;
-	
-	  if(isFilp==0){
-	 picCanvas.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale(-'+currentScale+','+currentScale+')';
-	 }else if(isFilp==1){
-		 picCanvas.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale('+currentScale+','+currentScale+')';
-		 }
-	 
-	 picCanvas.style.top=offy;
-	 picCanvas.style.left=offx;
-	 if(isFilp==0){
-	 target.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale(-'+currentScale+','+currentScale+')';
-	 }else if(isFilp==1){
-		 target.style.webkitTransform = 'rotate(' + totalAngle + 'deg) scale('+currentScale+','+currentScale+')';
-		 }
-	 target.style.top=offy;
-	 target.style.left=offx;
-	 
-	currentScaleLast=currentScale;
-	 if(ev.fingerStatus === 'end'){
-        angle =totalAngle;
-	initialScale=currentScale
-		currentScaleLast=currentScale;
-    }
-});
-    
-touch.on('#yes', 'dragend', function(ev){
-	
-	angle=totalAngle;
-	currentScaleLast=currentScale;
-
-	dx += ev.x;
-	dy += ev.y;
-});
-
-touch.on('#circle', 'touchstart', function(ev){
-  ev.preventDefault();
-});	
-touch.on('#circle', 'drag', function(ev){
-	 bx = bx || 0;
-	  circleLeft=parseInt($(".adjust").width()*0.5); 
-	  offx1=bx+ev.x;
-	  var evX=ev.x;
-	  
-	  makeLight(imgData,offx1,evX)
-	    
-	  function makeLight(obj,num,evX){
-		  if(num>90||num<-90)return;
-		  var left1=document.getElementById("circle").style.left;
-		  var left;
-		  var left2=num+circleLeft;
-		  if(Number(left1.slice(0,-2))<left2){
-			  left=0
-			  }
-			 else{
-				 left=1;
-			  } 
-		  $(".num").show().html(num);
-		  
-		  colorNum=num*2;
-		document.getElementById("circle").style.left=(num+circleLeft)+"px"; 	
-
-	  }	
-});	
-
-touch.on('#circle', 'dragend', function(ev){
-	bx += ev.x;
-	$(".num").hide()
-	
-	 picTranseObj2 = AlloyImage(target1);	   
-	 var grayPic = picTranseObj2.clone().act("curve",[0,128-(brightness-1)*64,255], [0,128+(brightness-1)*64,255]).act("setHSI",colorNum/4,100,0,false);
-      grayPic.replace(target);
-	 	
-});	
-touch.on('#circle1', 'touchstart', function(ev){   
-  ev.preventDefault();
-});	
-touch.on('#circle1', 'drag', function(ev){
-	
-	 cx = cx || 0;
-	  circleLeft=parseInt($(".adjust").width()*0.5); 
-	  offx2=cx+ev.x;
-	  var evX=ev.x
-	  makeLight(imgData,offx2,evX)
-	  function makeLight(obj,num,evX){
-		  if(num>90||num<-90)return;
-		  var left1=document.getElementById("circle1").style.left;
-		  var left;
-		  var left2=num+circleLeft;
-		  if(Number(left1.slice(0,-2))<left2){
-			  left=0
-			  }
-			 else{
-			  left=1;
-			  } 
-		  $(".num").show().html(num);
-		  brightness=1+num/100;
-		document.getElementById("circle1").style.left=(num+circleLeft)+"px";
-	  }	
-});	
-touch.on('#circle1', 'dragend', function(ev){
-	cx += ev.x;
-	
-	 picTranseObj2 = AlloyImage(target1);	   
-	 var grayPic = picTranseObj2.clone().act("curve",[0,128-(brightness-1)*64,255], [0,128+(brightness-1)*64,255]).act("setHSI",colorNum/4,100,0,false);
-      grayPic.replace(target);
-		
-	 $(".num").hide()
-});	
-
-$("#light").click(function(e) {
-	 for(var i=0;i<cc.length;++i){
-		  c[i]=cc[i];
-		  }
-    $(".config").show();
-	$("#circle1").show();
-	$("#configTxt").html("亮度");
-	$("#circle").hide();
-	$(this).css("background","#222");
-	$("#color").css("background","#333");
-});
-$("#color").click(function(e) {
-	 for(var i=0;i<cc.length;++i){
-		  c[i]=cc[i];
-		  }
-    $(".config").show();
-	$("#circle").show();
-	$("#configTxt").html("颜色");
-	$("#circle1").hide();
-	$(this).css("background","#222");
-	$("#light").css("background","#333");
-});
-$(".configClose").click(function(e) {
-   $(".config").hide();
-   $("#light").css("background","#333");
-   $("#color").css("background","#333");
-});
-}
-}
-})
-}
-
-function bigPic(a,b,c,allW,allH,yd){
-	 dd=1/(b-a);
-	allW=allW*a*dd
-	allH=allH*c*dd
-	if(yd==false){
-	$(".makeBorder").css({"marginLeft":"-"+(allW)+"px","marginTop":"-"+(allH)+"px","-webkit-transform":"scale("+dd+","+dd+")","-webkit-transform-origin":"0% 0%"})}
-	else{
-	$(".basePic").css({"marginLeft":"-"+(allW)+"px","marginTop":"-"+(allH)+"px","-webkit-transform":"scale("+dd+","+dd+")","-webkit-transform-origin":"0% 0%"})
-		}
-	}
-
-var topPicWidth=$("#makeTopPic").width();
-var topPicHeight=$("#makeTopPic").height();
-var mainWidth=$(".makeMain").width();
-var mainHeight=$(".makeMain").height();
-$(".makeButton").click(function(){
-	
-	$(".loading").show();
-	 $(".loadLogo").show();
-  $(".loading p").html("图片生成中..");
-	var target = document.getElementById("photoImg");
-
-	if(androidMicromessenger==0){
-    	psLib(target).act("setHSI",0,100,0,false). act("brightness",0,1).replace(target);	
-	}else{
-		psLib(target).act("setHSI",0,100,0,false). act("brightness",0,1).replace(target);	
-	}
-	
-     var img=new Image();
-     img.src=document.getElementById('imgMask').src;	
-	 target.onload=function(){
-	
-  document.getElementById('myCanvas').width=topPicWidth;
-  document.getElementById('myCanvas').height=topPicHeight;
-  picCanvas.width=picWidth;
-	  picCanvas.height=picHeight;
-	 var picCxt=picCanvas.getContext("2d");
-	 if(isFilp==0){
-	  picCxt.translate(picWidth,0);
-	  picCxt.scale(-1,1);
-	  }
-	  picCxt.drawImage(target,0,0,picWidth,picHeight);
-  
-  
-	var ctx = document.getElementById('myCanvas').getContext('2d'); 
-	ctx.save()
-/*	alert("dd="+dd+",dx="+dx+",dy="+dy+",currentScaleLast="+currentScaleLast+",angle"+angle)*/
-     var turnLeft=dx/dd;
-	 var turnTop=dy/dd;
-	var canvasAwayLeft=awayLeft*mobanWidth;
-	var canvasAwayTop=awayTop*mobanHeight;		
-	var scaleLeft=(picWidth*currentScaleLast-picWidth)/(2*dd)
-	var scaleTop=(picHeight*currentScaleLast-picHeight)/(2*dd)
-	ctx.translate(canvasAwayLeft+turnLeft-scaleLeft,canvasAwayTop+turnTop-scaleTop)
-    ctx.scale(currentScaleLast,currentScaleLast)
-	ctx.translate(picWidth/dd*0.5,picHeight/dd*0.5)
-	ctx.rotate(angle*Math.PI/180)
-	ctx.translate(-picWidth/dd*0.5,-picHeight/dd*0.5)
-	ctx.drawImage(picCanvas,0,0,picWidth/dd,picHeight/dd)
-	 $(".indexMain").remove()
-	$(".makeMain").remove()
-	
-    ctx.restore()
-	ctx.drawImage(img,0,0,topPicWidth,topPicHeight)
-	 showImg= document.getElementById('myCanvas').toDataURL("image/jpeg");
-	// document.write("<img src='"+showImg+"' alt='from canvas' class='dataImg'/>")
-
-	// dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
-	showImg=showImg.split(',')[1];
-	showImg=window.atob(showImg);
-	var array8Int = new Uint8Array(showImg.length);
-	for (var i = 0; i < showImg.length; i++) {
-	    array8Int[i] = showImg.charCodeAt(i);
-	};
-	// canvas.toDataURL 返回的默认格式就是 image/png
-	var finishImage = getBlobImage(array8Int);
-	loadXMLDoc(finishImage);
-	}
-	})
-}
-ctxLoading.sector(50,50,25,Math.PI/180*30,Math.PI/180*300).fill();
-
-var now=new Date().getTime()-new Date("2001-01-01").getTime();
-var appKey = hex_sha1("A6995678227283"+"UZ"+"1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0"+"UZ"+now); 
-Key = appKey+"."+now // 结果 b132021b1389d075d31451b1b174f710f9c6fc1d.461820253716
-function loadXMLDoc(f)
-{
-var xmlhttp;
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function(){
-var response=xmlhttp.responseText 
-if (response) {
- 	response = JSON.parse(response);
-  	if (response && response.url) {
-  		window.location.href="default.html?pic="+response.url.replace("http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/","")+"&model="+model+"&title="+title+"&userId="+userId;
-  	};
-};
-}  
-
-xmlhttp.open("POST","http://d.apicloud.com/mcm/api/file",true);
-// xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-xmlhttp.setRequestHeader("X-APICloud-AppKey",Key);
-xmlhttp.setRequestHeader("X-APICloud-AppId","A6995678227283");   
-// xmlhttp.send("file="+showImg+"&&moban="+model+"&&name="+title); 
-
-var formData = needsFormDataShim ? new FormDataShim() : new FormData();
-// xmlhttp.setRequestHeader('Content-Type','multipart/form-data;boundary=---------------------------' + (new Date()).getTime());
-// formData.append('fileName', "image/jpeg");
-formData.append('file', f, title+new Date().getTime());  
-xmlhttp.send(formData);
-}
-
-function getBlobImage(array) {
-	var jpeg;
-	try {
-	  var jpeg = new Blob( [array], {type : "image/jpeg"});
-	}
-	catch(e){
-	    // TypeError old chrome and FF
-	    window.BlobBuilder = window.BlobBuilder || 
-	                         window.WebKitBlobBuilder || 
-	                         window.MozBlobBuilder || 
-	                         window.MSBlobBuilder;
-	    if(e.name == 'TypeError' && window.BlobBuilder){
-	        var bb = new BlobBuilder();
-	        bb.append(array.buffer);
-	        jpeg = bb.getBlob("image/jpeg");
-	    }
-	    else if(e.name == "InvalidStateError"){
-	        // InvalidStateError (tested on FF13 WinXP)
-	        jpeg = new Blob( [array.buffer], {type : "image/jpeg"});
-	    }
-	    else{
-	        alert(e.name + ": " + e.message);  
-	    }
-	}
-	return jpeg;
-}
-
-
-var
-    // Android native browser uploads blobs as 0 bytes, so we need a test for that
-    needsFormDataShim = (function () {
-        var bCheck = ~navigator.userAgent.indexOf('Android')
-                        && ~navigator.vendor.indexOf('Google')
-                        && !~navigator.userAgent.indexOf('Chrome');
-
-        return bCheck && navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
-    })(),
-
-    // Test for constructing of blobs using new Blob()
-    blobConstruct = !!(function () {
-        try { return new Blob(); } catch (e) {}
-    })(),
-
-    // Fallback to BlobBuilder (deprecated)
-    XBlob = blobConstruct ? window.Blob : function (parts, opts) {
-        var bb = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
-        parts.forEach(function (p) {
-            bb.append(p);
-        });
-
-        return bb.getBlob(opts ? opts.type : undefined);
-    };
-
-function FormDataShim () {
-    var
-        // Store a reference to this
-        o = this,
-
-        // Data to be sent
-        parts = [],
-
-        // Boundary parameter for separating the multipart values
-        boundary = Array(21).join('-') + (+new Date() * (1e16*Math.random())).toString(36),
-
-        // Store the current XHR send method so we can safely override it
-        oldSend = XMLHttpRequest.prototype.send;
-
-    this.append = function (name, value, filename) {
-        parts.push('--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"');
-
-        if (value instanceof Blob) {
-            parts.push('; filename="'+ (filename || 'blob') +'"\r\nContent-Type: ' + value.type + '\r\n\r\n');
-            parts.push(value);
-        }
-        else {
-            parts.push('\r\n\r\n' + value);
-        }
-        parts.push('\r\n');
-    };
-
-    // Override XHR send()
-    XMLHttpRequest.prototype.send = function (val) {
-        var fr,
-            data,
-            oXHR = this;
-
-        if (val === o) {
-            // Append the final boundary string
-            parts.push('--' + boundary + '--');
-
-            // Create the blob
-            data = new XBlob(parts);
-
-            // Set up and read the blob into an array to be sent
-            fr = new FileReader();
-            fr.onload = function () { oldSend.call(oXHR, fr.result); };
-            fr.onerror = function (err) { throw err; };
-            fr.readAsArrayBuffer(data);
-
-            // Set the multipart content type and boudary
-            this.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
-            XMLHttpRequest.prototype.send = oldSend;
-        }
-        else {
-            oldSend.call(this, val);
-        }
-    };
-}
-
-}
-catch(e) {
-	alert(e.name + ": " + e.message);
-}
-</script>

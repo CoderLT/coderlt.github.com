@@ -1,5 +1,5 @@
 *{margin:0;padding:0;}
-*{-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);border-radius:0;}
+*{touch-action: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);border-radius:0;}
 img{border:0;display:block;}
 li{list-style:none;}
 .clear{clear:both}
@@ -29,7 +29,7 @@ i,em{font-style:normal}
 .makeBottom ul li p{width:100%;text-align:center;font-size:11px;color:#fff;line-height:12px;margin-bottom:5px;margin-top:4px;}
 .config{position:absolute;width:90%;height:40px;background:#333;left:5%;bottom:72px;border-radius:5px;}
 .adjust{width:56.25%;border-bottom:1px solid #ccc;margin:auto;height:15px;margin-top:5px;position:relative;}
-.adjust a.circle{width:26px;height:26px;background:#e1e1e1;border-radius:50px;position:absolute;left:50%;bottom:-13px;margin-left:-13px;}
+.adjust .circle{width:26px;height:26px;background:#e1e1e1;border-radius:50px;position:absolute;left:50%;bottom:-13px;margin-left:-13px;}
 #configTxt{position:absolute;left:5%;font-size:14px;color:#fff;line-height:40px;}
 .configClose{width:30px;height:30px;right:3%;top:5px;position:absolute;}
 .configClose img{width:14px;height:14px;padding:8px;display:block;}
