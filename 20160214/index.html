@@ -402,8 +402,8 @@
 						picCxt.drawImage(target, 0, 0, picWidth, picHeight);
 						var ctx = document.getElementById('myCanvas').getContext('2d');
 						ctx.save();
-						var turnLeft = transform.translate.x / dd;
-						var turnTop = transform.translate.y / dd;
+						var turnLeft = (transform.translate.x + transform.scaleOffset.x + transform.rotationOffset.x) / dd;
+						var turnTop = (transform.translate.y + transform.scaleOffset.y + transform.rotationOffset.y) / dd;
 						var canvasAwayLeft = awayLeft * mobanWidth;
 						var canvasAwayTop = awayTop * mobanHeight;
 						var scaleLeft = (picWidth * transform.scale - picWidth) / (2 * dd)
@@ -417,17 +417,17 @@
 						ctx.restore()
 						ctx.drawImage(img, 0, 0, mobanWidth, mobanHeight)
 						showImg = document.getElementById('myCanvas').toDataURL("image/jpeg");
-						document.write("<img src='" + showImg + "' alt='from canvas' class='dataImg'/>")
-							// dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
-							//					showImg = showImg.split(',')[1];
-							//					showImg = window.atob(showImg);
-							//					var array8Int = new Uint8Array(showImg.length);
-							//					for (var i = 0; i < showImg.length; i++) {
-							//						array8Int[i] = showImg.charCodeAt(i);
-							//					};
-							//					// canvas.toDataURL 返回的默认格式就是 image/png
-							//					var finishImage = getBlobImage(array8Int);
-							//					loadXMLDoc(finishImage);
+						// document.write("<img src='" + showImg + "' alt='from canvas' class='dataImg'/>")
+						// dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+						showImg = showImg.split(',')[1];
+						showImg = window.atob(showImg);
+						var array8Int = new Uint8Array(showImg.length);
+						for (var i = 0; i < showImg.length; i++) {
+							array8Int[i] = showImg.charCodeAt(i);
+						};
+						// canvas.toDataURL 返回的默认格式就是 image/png
+						var finishImage = getBlobImage(array8Int);
+						loadXMLDoc(finishImage);
 					})
 				}
 
@@ -589,6 +589,14 @@
 						x: START_X,
 						y: START_Y
 					},
+					scaleOffset: {
+						x: 0,
+						y: 0
+					},
+					rotationOffset: {
+						x: 0,
+						y: 0
+					},
 					flip: 0,
 					scale: 1,
 					angle: 0,
@@ -598,7 +606,7 @@
 
 			function requestElementUpdate() {
 				var value = [
-					'translate(' + transform.translate.x + 'px, ' + transform.translate.y + 'px)',
+					'translate(' + (transform.translate.x + transform.scaleOffset.x + transform.rotationOffset.x) + 'px, ' + (transform.translate.y + transform.scaleOffset.y + transform.rotationOffset.y) + 'px)',
 					'scale(' + transform.scale * (transform.flip ? -1 : 1) + ', ' + transform.scale + ')',
 					'rotate(' + transform.angle * (transform.flip ? -1 : 1) + 'deg)'
 				];
@@ -627,8 +635,13 @@
 				if (ev.type == 'pinchstart') {
 					initScale = (transform.scale / ev.scale) || 1;
 				}
+				var currentScale = initScale * ev.scale;
+				var x = img.getBoundingClientRect().left + img.getBoundingClientRect().width / 2 - ev.center.x,
+					y = img.getBoundingClientRect().top + img.getBoundingClientRect().height / 2 - ev.center.y;
+				transform.scaleOffset.x += (currentScale / transform.scale - 1) * x;
+				transform.scaleOffset.y += (currentScale / transform.scale - 1) * y;
 				el.className = '';
-				transform.scale = initScale * ev.scale;
+				transform.scale = currentScale;
 				requestElementUpdate();
 				//		logEvent(ev.type + ": " + initScale + " * " + ev.scale);
 			}
@@ -638,9 +651,20 @@
 				if (ev.type == 'rotatestart') {
 					initAngle = (transform.angle - ev.rotation) || 0;
 				}
+				var currentAngle = initAngle + ev.rotation;
+				var angle = (currentAngle - transform.angle) / 180 * Math.PI;
+				var cosa = Math.cos(angle),
+					sina = Math.sin(angle);
+				var x0 = img.getBoundingClientRect().left + img.getBoundingClientRect().width / 2,
+					y0 = img.getBoundingClientRect().top + img.getBoundingClientRect().height / 2,
+					a = ev.center.x,
+					b = ev.center.y;
+				var x = a + (x0 - a) * cosa - (y0 - b) * sina;
+				var y = b + (x0 - a) * sina + (y0 - b) * cosa;
+				transform.rotationOffset.x += x - x0;
+				transform.rotationOffset.y += y - y0;
 				el.className = '';
-				transform.rz = 1;
-				transform.angle = initAngle + ev.rotation;
+				transform.angle = currentAngle;
 				requestElementUpdate();
 				//		logEvent(ev.type + ": " + initAngle + " + " + ev.rotation);
 			}
