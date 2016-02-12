@@ -24,16 +24,16 @@
 		<div class="moreList" id="moreList">
 			<ul>
 				<li>
-					<a href="index.html?model=0" class="moreListHref"><img src="images/0.jpg"></a>
+					<a href="index.html?model=0&ADTAG=0" class="moreListHref"><img src="images/0.jpg"></a>
 				</li>
 				<li>
-					<a href="index.html?model=1" class="moreListHref"><img src="images/1.jpg"></a>
+					<a href="index.html?model=1&ADTAG=1" class="moreListHref"><img src="images/1.jpg"></a>
 				</li>
 				<li>
-					<a href="index.html?model=2" class="moreListHref"><img src="images/2.jpg"></a>
+					<a href="index.html?model=2&ADTAG=2" class="moreListHref"><img src="images/2.jpg"></a>
 				</li>
 				<li>
-					<a href="index.html?model=3" class="moreListHref"><img src="images/3.jpg"></a>
+					<a href="index.html?model=3&ADTAG=3" class="moreListHref"><img src="images/3.jpg"></a>
 				</li>
 			</ul>
 		</div>
@@ -102,7 +102,7 @@
 						callback(txtHeight);
 					}, false);
 					$("#makeAgain").click(function(e) {
-						var moban = ["index.html?model=0", "index.html?model=1", "index.html?model=2", "index.html?model=3"];
+						var moban = ["index.html?model=0&ADTAG=0", "index.html?model=1&ADTAG=1", "index.html?model=2&ADTAG=2", "index.html?model=3&ADTAG=3"];
 						window.location.href = moban[model];
 					});
 				};
@@ -128,7 +128,7 @@
 				var shareNewSrc = (showImg && showImg.length) ? showImg : "http://daka.xiao6.me/20160214/images/add1.jpg";
 				window.location = "heibais://heibaixiaoyuan.com?type=pop&path=sharewebview&title=" + shareTitle + "&image=" + encodeURIComponent(shareNewSrc) + "&desc=" + shareDesc + "&shareurl=" + encodeURIComponent(shareurl);
 			}
-			window.onload = function() {
+//			body.onload = function() {
 				loadXMLDoc(function(height) {
 					var msg = "长按图片可将照片保存到相册";
 					if (b.heibai) {
@@ -170,8 +170,8 @@
 						}
 					});
 				}
-			}
+//			}
 		</script>
+		<script type="text/javascript" src="http://pingjs.qq.com/h5/stats.js" name="MTAH5" sid="500010288" cid="500010289" ></script>
 	</body>
-
 </html>

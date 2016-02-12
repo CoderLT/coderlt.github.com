@@ -225,7 +225,7 @@
 					};
 				}
 				var b = browser();
-				window.onload = function() {
+				document.getElementById("imgMask").onload = function() {
 					setLoadingProgress(1);
 					var IndexPicHeight = $(".indexPic").height();
 					$(".indexPic").css("margin-top", -IndexPicHeight / 2 + "px")
@@ -446,7 +446,7 @@
 						if (response) {
 							response = JSON.parse(response);
 							if (response && response.url) {
-								window.location.href = "default.html?pic=" + response.url.replace("http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/", "") + "&model=" + model + "&title=" + title + "&userId=" + userId;
+								window.location.href = "default.html?pic=" + response.url.replace("http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/", "") + "&model=" + model + "&title=" + title + "&userId=" + userId + "&ADTAG=" + userId;
 							};
 						};
 					}
@@ -682,6 +682,7 @@
 		<script>
 			setLoadingProgress(0.8);
 		</script>
+		<script type="text/javascript" src="http://pingjs.qq.com/h5/stats.js" name="MTAH5" sid="500010288" cid="500010289"></script>
 	</body>
 
 </html>
