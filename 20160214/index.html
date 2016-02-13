@@ -427,11 +427,11 @@
 						};
 						// canvas.toDataURL 返回的默认格式就是 image/png
 						var finishImage = getBlobImage(array8Int);
-						loadXMLDoc(finishImage);
+						loadXMLDoc(finishImage, 1);
 					})
 				}
 
-				function loadXMLDoc(f) {
+				function loadXMLDoc(f, tryBlobFromData) {
 					var now = new Date().getTime() - new Date("2001-01-01").getTime();
 					var appKey = hex_sha1("A6995678227283" + "UZ" + "1ED1BF5A-0DEA-1F4D-1F52-6912CB10ABB0" + "UZ" + now);
 					Key = appKey + "." + now;
@@ -442,18 +442,32 @@
 						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 					}
 					xmlhttp.onreadystatechange = function() {
+						if (xmlhttp.readyState != 4) {
+							return;
+						}
 						var response = xmlhttp.responseText
 						if (response) {
 							response = JSON.parse(response);
 							if (response && response.url) {
 								window.location.href = "default.html?pic=" + response.url.replace("http://7xl9f3.com1.z0.glb.clouddn.com/apicloud/", "") + "&model=" + model + "&title=" + title + "&userId=" + userId + "&ADTAG=" + userId;
+								return;
 							};
 						};
+						if (tryBlobFromData) {
+							loadXMLDoc(f, 0);
+						}
 					}
 					xmlhttp.open("POST", "http://d.apicloud.com/mcm/api/file", true);
 					xmlhttp.setRequestHeader("X-APICloud-AppKey", Key);
 					xmlhttp.setRequestHeader("X-APICloud-AppId", "A6995678227283");
-					var formData = needsFormDataShim ? new FormDataShim() : new FormData();
+					var formData;
+					if (needsFormDataShim || !tryBlobFromData) {
+					 	formData = new FormDataShim();
+					 	tryBlobFromData = 0;
+					}
+					else {
+						formData = new FormData();
+					}
 					formData.append('file', f, title + new Date().getTime());
 					xmlhttp.send(formData);
 				}
