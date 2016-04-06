@@ -1,141 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>大咖-带你一秒变大咖</title>
-        <meta name="description" content="">
-        <meta property="og:image" content="" />
-        <meta property="og:description" content="" />
-        <link rel="icon" type="image/png" href="resource/YanZhaoLogo.png" />
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="resource/YanZhaoLogo.png">
-		<link rel="stylesheet" href="resource/main_page.css" type="text/css" media="screen">
-    </head>
-    
-    <body class="black" ontouchstart="">
-		<meta name='apple-itunes-app' content='app-id=477927812'>
-		<!-- QR Code Starts -->
-		<div class="qrcode-wrapper">
-			<div class="qrcode-image">
-				<img src="resource/app-qrcode.png">
-			</div>
-			<div class="qrcode-text">
-				手机扫码下载
-			</div>
-		</div>
-		<!-- QR Code Ends -->
-		
-		<!-- App Store QR Code Starts -->
-		<div class="app-qrcode-wrapper">
-			<div class="app-qrcode-wrapper-2">
-				<div class="app-qrcode">
-					<div class="app-qrcode-image">
-						<img src="resource/app-qrcode.png">
-					</div>
-					<div class="app-qrcode-text">
-						长按二维码，扫描下载
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- App Store QR Code Ends -->
-		
-		<!-- Main Area Starts -->
-		<div class="main-wrapper appGreen">
-			<div class="main-text">
-				<div class="download-buttons">
-					<div class="download-buttons-button">
-						<div class="download-buttons-button-icon" >
-							<a href="javascript:void(0)" onclick="open_app()"><img src="resource/logo-apple-white.png"></a>
-						</div>
-						<div class="download-buttons-button-text">
-							<a href="javascript:void(0)" onclick="open_app()">  </a>
-						</div>
-						<div class="download-buttons-button-icon">
-							<a href="javascript:void(0)" onclick="open_app()"><img src="resource/logo-android-white.png"></a>
-						</div>
-						<div class="download-buttons-button-text app-download-triger">
-							<a href="javascript:void(0)" onclick="open_app()">下载大咖</a>
-						</div>
-					</div>
-				</div>
-				<div class="download-desc">
-					带你一秒变大咖, 小伙伴们速来围观
-				</div>
-			</div>
-			<div class="main-screenshots">
-				<div class="iphone" id="picture-iphone">
-					<img src="resource/appstore640960.jpg">
-				</div>
-		</div>
-		<!-- Main Area Ends -->
-		
-		<!-- Sector Title Starts -->
-		<div class="sector-title-wrapper dark">
-			<div class="sector-title">
-				关于我们
-			</div>
-			<div class="sector-title-arrow">
-				<img src="resource/arrow-gray.png" />
-			</div>
-		</div>
-		<!-- Sector Title Ends -->
-	
-        <!-- Footer Begins -->
-
-        <div class="footer dark">
-            <div class="footer-wrapper">
-                <div class="credit">
-                    <div class="logo-company">
-                        <img src="resource/Themes120.png" alt="大咖"/>
-                    </div>
-                    <div class="description-company">
-                        <p>厦门信始网络科技有限公司（Xiamen Themes Network Technology Co., Ltd.） 是一支勤奋的初创团队。如果你有任何建议，<a href="mailto:290907999@qq.com">请立刻发邮件给我们</a>。</p>
-						<p>我们期待您的来信！</p>
-                    </div>
-                    <div class="copyright">
-                    <p>&copy; 2015 Themes</p>    
-                    </div>
-                </div>
-            </div>
-        </div>
-		
-		<!-- Footer Ends -->
-		<script type="text/javascript">
-		function browser() {
-		    var u = navigator.userAgent.toLowerCase();
-		    return {
-		        ios: !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/), //ios终端
-		        android: u.indexOf('android') > -1, //android终端
-		        iPhone: u.indexOf('iphone') > -1, //是否为iPhone
-		        iPad: u.indexOf('ipad') > -1, //是否iPad
-	        	mobile: !!u.match(/applewebkit.*mobile.*/), //是否为移动终端
-		    };
-		}
-		function open_app() {
-			var b = browser();
-			if (b.ios || b.iPhone || b.iPad) {
-		        // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
-		        // 否则打开a标签的href链接
-		        var ifr = document.createElement('iframe');
-		        ifr.src = 'com.coderlt.daka://open';
-		        ifr.style.display = 'none';
-		        document.body.appendChild(ifr);
-		        window.setTimeout(function(){
-		            document.body.removeChild(ifr);
-					window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
-		        },300);
-			}
-			else if (!b.mobile) {
-				window.location = "https://itunes.apple.com/cn/app/id994908085?mt=8";
-			}
-			else {
-				window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.example.daka";
-			}
-		}
-		</script>
-		<script type="text/javascript" src="http://pingjs.qq.com/h5/stats.js" name="MTAH5" sid="500010288" cid="500010289" ></script>
-	</body>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="" />
+<meta name="format-detection" content="telephone=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>柚看</title>
+</head>
+<style>
+  *{padding:0;margin:0;}
+  .pic{width:48%;height:auto;margin:auto;margin-top:60px;}
+  .pic img{display:block;width:100%;}
+  .txt{width:100%;text-align:center;margin-top:40px;} 
+  .txt p{font-size:16px;color:#333;text-align:center;width:100%;line-height:24px;}
+  .button{width:100%;height:auto;margin-top:50px;}
+  .button button{width:57%;height:auto;margin:auto;margin-bottom:10px;display:block;border:0;background:none;}
+  .button button img{width:100%}
+</style>
+<body style="background:#fff;">
+  <div class="pic"><img src="images/pic.jpg"></div>
+  <div class="txt" style="display:none;">
+    <p>官网设计中</p>
+    <p style="font-size:13px;">敬请期待</p>
+  </div>
+  <div class="button">
+    <button><img src="images/iosButton.jpg"></button>
+    <button><img src="images/androidButton.jpg"></button>
+  </div>
+</body>
 </html>
