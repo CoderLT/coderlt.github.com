@@ -1,0 +1,15 @@
+{
+"applinks": {
+    "apps": [ ],
+    "details": [
+        {
+            "appID": "{VG8HC8SDZ5.com.lambdatree.app.live",
+            "paths": [ "/path/to/content", "/path/to/other/*", "NOT /path/to/exclude" ]
+        },
+        {
+            "appID": "VG8HC8SDZ5.cn.dev.newgolive.newgo",
+            "paths": [ "/action/*", "/path/to/other/*", "NOT /path/to/exclude" ]
+        }
+    ]
+}
+}
