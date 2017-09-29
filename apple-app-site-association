@@ -3,7 +3,7 @@
     "apps": [ ],
     "details": [
         {
-            "appID": "{VG8HC8SDZ5.com.lambdatree.app.live",
+            "appID": "VG8HC8SDZ5.com.lambdatree.app.live",
             "paths": [ "/path/to/content", "/path/to/other/*", "NOT /path/to/exclude" ]
         },
         {
