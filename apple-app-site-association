@@ -8,6 +8,12 @@
           "*"
         ]
       }
+      {
+        "appID": "GKFS6429EV.cn.dev.newgolive.newgo",
+        "paths": [
+          "*"
+        ]
+      }
     ]
   }
 }
