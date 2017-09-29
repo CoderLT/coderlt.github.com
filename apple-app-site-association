@@ -11,7 +11,7 @@
                 ]
             },
             {
-                "appID": "GKFS6429EV.cn.dev.newgolive.newgo",
+                "appID": "VG8HC8SDZ5.cn.dev.newgolive.newgo",
                 "paths": [
                     "*",
                     "NOT /path/to/exclude"
