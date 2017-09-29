@@ -5,13 +5,7 @@
       {
         "appID": "VG8HC8SDZ5.cn.dev.newgolive.newgo",
         "paths": [
-          "*"
-        ]
-      }
-      {
-        "appID": "GKFS6429EV.cn.dev.newgolive.newgo",
-        "paths": [
-          "*"
+          "/action/*"
         ]
       }
     ]
