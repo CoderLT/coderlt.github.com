@@ -1,0 +1,31 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "VG8HC8SDZ5.com.lambdatree.app.live",
+        "paths": [
+          "/action/*"
+        ]
+      },
+      {
+        "appID": "TG6D8FFJ3K.com.lambdatree.dddlive",
+        "paths": [
+          "/action/*"
+        ]
+      },
+      {
+        "appID": "MZ7YJ5MECW.com.kuguawenda.live",
+        "paths": [
+          "/action/*"
+        ]
+      },
+      {
+        "appID": "VG8HC8SDZ5.com.dingdong.live",
+        "paths": [
+          "/action/*"
+        ]
+      }
+    ]
+  }
+}
