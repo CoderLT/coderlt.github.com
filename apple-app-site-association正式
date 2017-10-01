@@ -5,25 +5,25 @@
       {
         "appID": "VG8HC8SDZ5.com.lambdatree.app.live",
         "paths": [
-          "/action/*"
+          "/livepage/appaction/*"
         ]
       },
       {
         "appID": "TG6D8FFJ3K.com.lambdatree.dddlive",
         "paths": [
-          "/action/*"
+          "/livepage/appaction/*"
         ]
       },
       {
         "appID": "MZ7YJ5MECW.com.kuguawenda.live",
         "paths": [
-          "/action/*"
+          "/livepage/appaction/*"
         ]
       },
       {
         "appID": "32UYUFZMN7.com.dingdong.live",
         "paths": [
-          "/action/*"
+          "/livepage/appaction/*"
         ]
       }
     ]
