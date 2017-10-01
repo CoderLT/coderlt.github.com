@@ -7,7 +7,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telphone=no" /> 
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
-    <script src="http://www.hisunfd.com/livepage/wap/client/appup/js/adaptive.js"></script>
+    <script>
+    	
+		function a() {
+            var fontSize = document.documentElement.clientWidth / 7.5;
+            document.documentElement.style.fontSize = fontSize + "px";;
+        }
+        var b = null;
+        window.addEventListener("resize", function() {
+            clearTimeout(b), b = setTimeout(a, 1)
+        }, !1), a();
+
+    </script>
 	<style>
 	    a{height:.4rem; font-size:.44rem; line-height:.4rem; margin:.3rem 1rem; text-align:center; display:block}
 	</style>
